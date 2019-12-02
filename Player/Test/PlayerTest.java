@@ -28,8 +28,8 @@ class PlayerTest {
    void init(){
         player1 = new Player("Speler 1");
         player2 = new Player("Speler 2");
-        street1 = new Street(null, "Straat1", 1, cityProperty, NR_OF_STREETS, new int[]{VALUE_STREET_1, 0, 0, 0, 0, 0, 0, 0});
-        street2 = new Street(null, "Straat2", 2, cityProperty, NR_OF_STREETS, new int[]{VALUE_STREET_2, 0, 0, 0, 0, 0, 0, 0});
+        street1 = new Street(null, "Straat1", 1, cityProperty, NR_OF_STREETS, new int[]{VALUE_STREET_1, 0, 0, 0, 0, 0, 0, 0}, "");
+        street2 = new Street(null, "Straat2", 2, cityProperty, NR_OF_STREETS, new int[]{VALUE_STREET_2, 0, 0, 0, 0, 0, 0, 0},"");
         station1 = new Station(null, "Station1", 3, stationProperty,NR_OF_STATIONS, new int[]{VALUE_STATION});
         station2 = new Station(null, "Station2", 4, stationProperty,NR_OF_STATIONS, new int[]{VALUE_STATION});
         station3 = new Station(null, "Station2", 5, stationProperty,NR_OF_STATIONS, new int[]{VALUE_STATION});

@@ -55,7 +55,7 @@ public class Game {
 
     private void handleTransactions(Player player) {
         if (askIfPlayerWantTransactions(player)) {
-            transactionHandler.handleTransaction(player);
+            transactionHandler.handleTransaction();
         }
     }
 

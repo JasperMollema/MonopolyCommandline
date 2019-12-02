@@ -1,5 +1,6 @@
 package jmol.jasper.MonopolyGame;
 
+import jmol.jasper.MonopolyBoard.Logic.PlayerAction;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;
@@ -17,17 +18,12 @@ public class TransactionHandler {
         this.players = players;
     }
 
-    public void handleTransaction(Player player) {
+    public PlayerAction handleTransaction() {
        switch (getChoice()) {
-           case BUY_HOUSES: buyHouses(player);
-           break;
-           case SOMETHING_ELSE:
-           break;
+           case BUY_HOUSES: return PlayerAction.BUY_HOUSES;
+           case SOMETHING_ELSE: return null;
        }
-    }
-
-    private void buyHouses(Player player) {
-
+       return null;
     }
 
     private int getChoice () {
