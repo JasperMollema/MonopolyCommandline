@@ -25,8 +25,8 @@ public class Game {
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
         userInputReader = gameSetup.getUserInputReader();
         board = gameSetup.getBoard();
-        bank = new Bank();
-        transactionHandler = new TransactionHandler(userInputReader, players);
+        bank = gameSetup.getBank();
+        transactionHandler = new TransactionHandler(userInputReader);
     }
 
     public void startGame(){
@@ -54,8 +54,11 @@ public class Game {
     }
 
     private void handleTransactions(Player player) {
-        if (askIfPlayerWantTransactions(player)) {
-            transactionHandler.handleTransaction();
+        if (!askIfPlayerWantTransactions(player)) {
+            return;
+        }
+        switch (transactionHandler.determinePlayerTransaction()){
+            case BUY_HOUSES: bank.buyHouses();
         }
     }
 

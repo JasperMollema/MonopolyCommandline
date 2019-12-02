@@ -2,8 +2,14 @@ package jmol.jasper.MonopolyBoard.Logic;
 
 import jmol.jasper.Utility.Logic.UserInputReader;
 
+import java.util.List;
+
 public class Board {
     private Boardspace[] boardspaces;
+    private List<Property> properties;
+    private List<Street> streets;
+    private List<Utility> utilities;
+    private List<CardSpace> cardSpaces;
 
     /**
      * The indexes of the boardspaces.
@@ -126,7 +132,7 @@ public class Board {
                new Street(userInputReader, "Kalverstraat", KALVERSTRAAT, STRAAT, 2, AMSTERDAM_PRIJZEN_DUUR, AMSTERDAM)};
    }
 
-    public Boardspace getBoardspace(int index) {
+   public Boardspace getBoardspace(int index) {
         return boardspaces[index];
     }
 }

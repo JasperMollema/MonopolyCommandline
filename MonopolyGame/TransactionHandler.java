@@ -1,24 +1,19 @@
 package jmol.jasper.MonopolyGame;
 
 import jmol.jasper.MonopolyBoard.Logic.PlayerAction;
-import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
-import java.util.List;
-
 public class TransactionHandler {
     private UserInputReader userInputReader;
-    private List<Player> players;
     private static final int BUY_HOUSES = 1;
     private static final int SOMETHING_ELSE = 2;
 
-    public TransactionHandler (UserInputReader userInputReader, List<Player> players) {
+    public TransactionHandler (UserInputReader userInputReader) {
         this.userInputReader = userInputReader;
-        this.players = players;
     }
 
-    public PlayerAction handleTransaction() {
+    public PlayerAction determinePlayerTransaction() {
        switch (getChoice()) {
            case BUY_HOUSES: return PlayerAction.BUY_HOUSES;
            case SOMETHING_ELSE: return null;

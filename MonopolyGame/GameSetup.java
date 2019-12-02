@@ -12,6 +12,7 @@ import java.util.Map;
 public class GameSetup {
     private Board board;
     private Player[] players;
+    private Bank bank;
     private UserInputReader userInputReader;
     private Integer numberOfPlayers;
     private Map<Player, Boardspace> playerBoardspaceMap;
@@ -88,6 +89,11 @@ public class GameSetup {
     private boolean isNumberOfPlayersValid() {
         return ExpressionValidator.getInstance().isValidIntegerWithBoundaries(numberOfPlayers, MIN_PLAYERS, MAX_PLAYERS);
     }
+
+    private void createBank() {
+        bank = new Bank();
+
+    }
     public Board getBoard() {
         return board;
     }
@@ -102,5 +108,9 @@ public class GameSetup {
 
     public Map<Player, Boardspace> getPlayerBoardspaceMap() {
         return playerBoardspaceMap;
+    }
+
+    public Bank getBank() {
+        return bank;
     }
 }
