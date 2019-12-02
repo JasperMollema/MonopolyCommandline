@@ -1,5 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
+import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Street extends Property {
@@ -11,9 +12,11 @@ public class Street extends Property {
     private final int RENT_4_HOUSES;
     private final int RENT_HOTEL;
     private int numberOfHouses;
+    private String city;
 
-    public Street(UserInputReader userInputReader, String name, int spaceNr, String city, int nrOfStreetsInCity, int[] values) {
-        super(userInputReader, name, spaceNr, city, nrOfStreetsInCity, values);
+    public Street(UserInputReader userInputReader, String name, int spaceNr, String type, int nrOfStreetsInCity, int[] values, String city) {
+        super(userInputReader, name, spaceNr, type, nrOfStreetsInCity, values);
+        this.city = city;
         PRICE_HOUSE = values[1];
         RENT_NO_HOUSES = values[2];
         RENT_1_HOUSE = values[3];
@@ -41,6 +44,17 @@ public class Street extends Property {
             break;
         }
         return rent;
+    }
+
+    @Override
+    public boolean buyProperty(Player player) {
+        super.buyProperty(player);
+
+        return true;
+    }
+
+    public int buyHouses(int amount) {
+        return PRICE_HOUSE;
     }
 
     private int calculateRentNoHouses() {

@@ -1,7 +1,6 @@
 package jmol.jasper.Player.Logic;
 
 import jmol.jasper.MonopolyBoard.Logic.Property;
-import jmol.jasper.MonopolyBoard.Logic.Street;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -13,7 +12,6 @@ public class Player {
     private Random dice;
     private List<Property> properties;
     private Map<String, Integer> propertyMap;
-    private Map<Street, Integer> streetMap;
     private boolean isGameOver;
 
     public Player(String name){
@@ -30,11 +28,13 @@ public class Player {
         return dice.nextInt(5) +1;
     }
 
-    public boolean buyProperty(Property property, int value){
+    public boolean buyProperty(Property property, int price){
         if (properties.contains(property) || !property.buyProperty(this)){
             return false;
         }
-        payMoney(value);
+        if (!payMoney(price)) {
+            return false;
+        }
         addToPropertyList(property);
         System.out.println(name + " is nu eigendom van: " + property.getName());
         return true;

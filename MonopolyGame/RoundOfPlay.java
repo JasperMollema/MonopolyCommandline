@@ -1,7 +1,6 @@
 package jmol.jasper.MonopolyGame;
 
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class RoundOfPlay {
@@ -17,26 +16,8 @@ public class RoundOfPlay {
     }
 
     public void play() {
-        handleTransactions();
         throwDice();
         player.move(totalThrow);
-        handleTransactions();
-    }
-
-    private void handleTransactions() {
-        if (askIfPlayerWantTransactions()) {
-            System.out.println(player.getName() + " kan nu eventuele transacties uitvoeren.");
-        }
-    }
-
-    private boolean askIfPlayerWantTransactions() {
-        System.out.println("Wil " + player.getName() + " transacties uitvoeren?");
-        Boolean wantHandleTransactions = userInputReader.getBoolean();
-        while (!ExpressionValidator.getInstance().isValidBoolean(wantHandleTransactions)) {
-            System.out.println("Voer ja, j, yes, y voor ja en nee, no, n voor nee");
-            wantHandleTransactions = userInputReader.getBoolean();
-        }
-        return wantHandleTransactions;
     }
 
     private void throwDice() {

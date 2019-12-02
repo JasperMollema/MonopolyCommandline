@@ -49,6 +49,19 @@ public class Board {
     private final int LUXE_BELASTING = 38;
     private final int KALVERSTRAAT = 39;
 
+    private final String STATION = "Station";
+    private final String STRAAT = "Street";
+    private final String NUTSBEDRIJF = "Utility";
+
+    private final String DORP = "Dorp";
+    private final String ARNHEM = "Arnhem";
+    private final String HAARLEM = "Haarlem";
+    private final String UTRRECHT = "Utrecht";
+    private final String GRONINGEN = "Groningen";
+    private final String DEN_HAAG = "Den Haag";
+    private final String ROTTERDAM = "Rotterdam";
+    private final String AMSTERDAM = "Amsterdam";
+
     private final int[] DORP_PRIJZEN_NORMAAL = new int[]{60, 50, 2, 10, 30, 90, 160, 250};
     private final int[] DORP_PRIJZEN_DUUR = new int[]{60, 50, 4, 20 ,60, 180, 320, 450};
     private final int[] ARNHEM_PRIJZEN_NORMAAL = new int[]{100, 50, 6, 30, 90, 270, 400, 550};
@@ -72,45 +85,45 @@ public class Board {
    public Board(UserInputReader userInputReader) {
        boardspaces = new Boardspace[]{
                new Start(userInputReader,"Start", START),
-               new Street(userInputReader,"Dorpsstraat",DORPSSTRAAT, "Ons Dorp", 2, DORP_PRIJZEN_NORMAAL),
+               new Street(userInputReader,"Dorpsstraat",DORPSSTRAAT, STRAAT, 2, DORP_PRIJZEN_NORMAAL, DORP),
                new CommunityChest(userInputReader, "Algemeen Fonds", ALGEMEEN_FONDS_1),
-               new Street(userInputReader, "Brink", BRINK, "Ons Dorp", 2, DORP_PRIJZEN_DUUR),
+               new Street(userInputReader, "Brink", BRINK, "Ons Dorp", 2, DORP_PRIJZEN_DUUR, DORP),
                new Taxation(userInputReader, "Inkomstenbelasting", INKOMSTENBELASTING, 200),
-               new Station(userInputReader, "Station Zuid", STATION_ZUID, "Station", 4, STATION_PRIJZEN),
-               new Street(userInputReader, "Steenstraat", STEENSTRAAT, "Arnhem", 3, ARNHEM_PRIJZEN_NORMAAL),
+               new Station(userInputReader, "Station Zuid", STATION_ZUID, STATION, 4, STATION_PRIJZEN),
+               new Street(userInputReader, "Steenstraat", STEENSTRAAT, STRAAT, 3, ARNHEM_PRIJZEN_NORMAAL, ARNHEM),
                new Chance(userInputReader, "Kans", KANS_1),
-               new Street(userInputReader, "Ketelstraat", KETELSTRAAT, "Arnhem", 3, ARNHEM_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Velperplein", VELPERPLEIN, "Arnhem", 3, ARNHEM_PRIJZEN_DUUR),
+               new Street(userInputReader, "Ketelstraat", KETELSTRAAT, STRAAT, 3, ARNHEM_PRIJZEN_NORMAAL, ARNHEM),
+               new Street(userInputReader, "Velperplein", VELPERPLEIN, STRAAT, 3, ARNHEM_PRIJZEN_DUUR, ARNHEM),
                new Jail(userInputReader, "Gevangenis", GEVANGENIS),
-               new Street(userInputReader, "Barteljorisstraat", BARTELJORISSTRAAT, "Haarlem", 3, HAARLEM_PRIJZEN_NORMAAL),
-               new Utility(userInputReader, "Elektriciteitsbedrijf", ELEKTRICITEITSBEDRIJF, "Nutsbedrijf", 2, NUTS_PRIJZEN),
-               new Street(userInputReader, "Zijlweg", ZIJLWEG, "Haarlem", 3, HAARLEM_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Grote Houtstraat", GROTE_HOUTSTRAAT, "Haarlem", 3, HAARLEM_PRIJZEN_DUUR),
-               new Station(userInputReader, "Station West", STATION_WEST, "Station", 4, STATION_PRIJZEN),
-               new Street(userInputReader, "Neude", NEUDE, "Utrecht", 3, UTRECHT_PRIJZEN_NORMAAL),
+               new Street(userInputReader, "Barteljorisstraat", BARTELJORISSTRAAT, STRAAT, 3, HAARLEM_PRIJZEN_NORMAAL, HAARLEM),
+               new Utility(userInputReader, "Elektriciteitsbedrijf", ELEKTRICITEITSBEDRIJF, NUTSBEDRIJF, 2, NUTS_PRIJZEN),
+               new Street(userInputReader, "Zijlweg", ZIJLWEG, STRAAT, 3, HAARLEM_PRIJZEN_NORMAAL, HAARLEM),
+               new Street(userInputReader, "Grote Houtstraat", GROTE_HOUTSTRAAT, STRAAT, 3, HAARLEM_PRIJZEN_DUUR, HAARLEM),
+               new Station(userInputReader, "Station West", STATION_WEST, STATION, 4, STATION_PRIJZEN),
+               new Street(userInputReader, "Neude", NEUDE, STRAAT, 3, UTRECHT_PRIJZEN_NORMAAL, UTRRECHT),
                new CommunityChest(userInputReader, "Algemeen Fonds", ALGEMEEN_FONDS_2),
-               new Street(userInputReader, "Biltstraat", BILTSTRAAT, "Utrecht", 3, UTRECHT_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Vreeburg", VREEBURG, "Utrecht", 3, UTRECHT_PRIJZEN_DUUR),
+               new Street(userInputReader, "Biltstraat", BILTSTRAAT, STRAAT, 3, UTRECHT_PRIJZEN_NORMAAL, UTRRECHT),
+               new Street(userInputReader, "Vreeburg", VREEBURG, STRAAT, 3, UTRECHT_PRIJZEN_DUUR, UTRRECHT),
                new Freeparking(userInputReader, "Vrij parkeren", VRIJ_PARKEREN),
-               new Street(userInputReader, "A Kerkhof", A_KERKHOF, "Groningen", 3, GRONINGEN_PRIJZEN_NORMAAL),
+               new Street(userInputReader, "A Kerkhof", A_KERKHOF, STRAAT, 3, GRONINGEN_PRIJZEN_NORMAAL, GRONINGEN),
                new Chance(userInputReader, "Kans", KANS_2),
-               new Street(userInputReader, "Grote Markt", GROTE_MARKT, "Groningen", 3, GRONINGEN_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Heerestraat", HEERESTRAAT, "Groningen", 3, GRONINGEN_PRIJZEN_DUUR),
-               new Station(userInputReader, "Station Noord", STATION_NOORD, "Station", 4, STATION_PRIJZEN),
-               new Street(userInputReader, "Spui", SPUI, "'s-Gravenhage", 3, DEN_HAAG_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Plein", PLEIN, "'s-Gravenhage", 3, DEN_HAAG_PRIJZEN_NORMAAL),
-               new Utility(userInputReader, "Waterleiding", WATERLEIDING, "Nutsbedrijf" , 4, NUTS_PRIJZEN),
-               new Street(userInputReader, "Lange Poten", LANGE_POTEN, "'s-Gravenhage", 3, DEN_HAAG_PRIJZEN_DUUR),
+               new Street(userInputReader, "Grote Markt", GROTE_MARKT, STRAAT, 3, GRONINGEN_PRIJZEN_NORMAAL, GRONINGEN),
+               new Street(userInputReader, "Heerestraat", HEERESTRAAT, STRAAT, 3, GRONINGEN_PRIJZEN_DUUR, GRONINGEN),
+               new Station(userInputReader, "Station Noord", STATION_NOORD, STATION, 4, STATION_PRIJZEN),
+               new Street(userInputReader, "Spui", SPUI, STRAAT, 3, DEN_HAAG_PRIJZEN_NORMAAL, DEN_HAAG),
+               new Street(userInputReader, "Plein", PLEIN, STRAAT, 3, DEN_HAAG_PRIJZEN_NORMAAL, DEN_HAAG),
+               new Utility(userInputReader, "Waterleiding", WATERLEIDING, NUTSBEDRIJF , 4, NUTS_PRIJZEN),
+               new Street(userInputReader, "Lange Poten", LANGE_POTEN, STRAAT, 3, DEN_HAAG_PRIJZEN_DUUR, DEN_HAAG),
                new GoToJail(userInputReader, "Ga naar de gevangenis", GA_NAAR_DE_GEVANGENIS),
-               new Street(userInputReader, "Hofplein", HOFPLEIN, "Rotterdam", 3, ROTTERDAM_PRIJZEN_NORMAAL),
-               new Street(userInputReader, "Blaak", BLAAK, "Rotterdam", 3, ROTTERDAM_PRIJZEN_NORMAAL),
+               new Street(userInputReader, "Hofplein", HOFPLEIN, STRAAT, 3, ROTTERDAM_PRIJZEN_NORMAAL, ROTTERDAM),
+               new Street(userInputReader, "Blaak", BLAAK, STRAAT, 3, ROTTERDAM_PRIJZEN_NORMAAL, ROTTERDAM),
                new CommunityChest(userInputReader, "Algemeen Fonds", ALGEMEEN_FONDS_3),
-               new Street(userInputReader, "Coolsingel", COOLSINGEL, "Rotterdam", 3, ROTTERDAM_PRIJZEN_DUUR),
-               new Station(userInputReader, "Station Oost", STATION_OOST, "Station", 4, STATION_PRIJZEN),
+               new Street(userInputReader, "Coolsingel", COOLSINGEL, STRAAT, 3, ROTTERDAM_PRIJZEN_DUUR, ROTTERDAM),
+               new Station(userInputReader, "Station Oost", STATION_OOST, STATION, 4, STATION_PRIJZEN),
                new Chance(userInputReader, "Kans", KANS_3),
-               new Street(userInputReader, "Leidse Plein", LEIDSE_PLEIN, "Amsterdam", 2, AMSTERDAM_PRIJZEN_NORMAAL),
+               new Street(userInputReader, "Leidse Plein", LEIDSE_PLEIN, STRAAT, 2, AMSTERDAM_PRIJZEN_NORMAAL, AMSTERDAM),
                new Taxation(userInputReader, "Luxe belasting", LUXE_BELASTING, 100),
-               new Street(userInputReader, "Kalverstraat", KALVERSTRAAT, "Amsterdam", 2, AMSTERDAM_PRIJZEN_DUUR)};
+               new Street(userInputReader, "Kalverstraat", KALVERSTRAAT, STRAAT, 2, AMSTERDAM_PRIJZEN_DUUR, AMSTERDAM)};
    }
 
     public Boardspace getBoardspace(int index) {

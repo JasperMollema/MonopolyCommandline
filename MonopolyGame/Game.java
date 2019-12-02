@@ -4,6 +4,7 @@ import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
+import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
 import java.util.ArrayList;
@@ -16,12 +17,16 @@ public class Game {
     private Map<Player, Boardspace> playerBoardspaceMap;
     private Board board;
     private int nrOfRounds;
+    private Bank bank;
+    private TransactionHandler transactionHandler;
 
     public Game(GameSetup gameSetup){
         players = makeArrayList(gameSetup.getPlayers());
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
         userInputReader = gameSetup.getUserInputReader();
         board = gameSetup.getBoard();
+        bank = new Bank();
+        transactionHandler = new TransactionHandler(userInputReader, players);
     }
 
     public void startGame(){
@@ -39,11 +44,29 @@ public class Game {
 
     private void playRound() {
         for (Player player : players) {
+            handleTransactions(player);
             playRound(player);
+            handleTransactions(player);
             if (player.isGameOver()) {
                 handleGameOver(player);
             }
         }
+    }
+
+    private void handleTransactions(Player player) {
+        if (askIfPlayerWantTransactions(player)) {
+            transactionHandler.handleTransaction(player);
+        }
+    }
+
+    private boolean askIfPlayerWantTransactions(Player player) {
+        System.out.println("Wil " + player.getName() + " transacties uitvoeren?");
+        Boolean wantHandleTransactions = userInputReader.getBoolean();
+        while (!ExpressionValidator.getInstance().isValidBoolean(wantHandleTransactions)) {
+            System.out.println("Voer ja, j, yes, y voor ja en nee, no, n voor nee");
+            wantHandleTransactions = userInputReader.getBoolean();
+        }
+        return wantHandleTransactions;
     }
 
     private void handleGameOver(Player player) {
