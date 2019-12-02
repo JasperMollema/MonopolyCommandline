@@ -18,7 +18,7 @@ public abstract class Boardspace {
         this.spaceNr = spaceNr;
     }
 
-    public abstract int performAction();
+    public abstract PlayerAction performAction();
 
     public int prepareAction (Player player, int diceThrow) {
         visitor = player;

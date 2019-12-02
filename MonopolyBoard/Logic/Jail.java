@@ -9,8 +9,8 @@ public class Jail extends Boardspace {
     }
 
     @Override
-    public int performAction() {
+    public PlayerAction performAction() {
         System.out.println("Alleen op bezoek!");
-        return spaceNr;
+        return null;
     }
 }

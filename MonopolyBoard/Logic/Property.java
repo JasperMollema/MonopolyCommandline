@@ -9,7 +9,6 @@ public abstract class Property extends Boardspace {
     protected Player owner;
     protected String type;
     protected int nrOfInstances;
-    protected static PropertyBuyer propertyBuyer;
 
     public Property(UserInputReader userInputReader, String name, int spaceNr, String type, int nrOfInstances, int[] values) {
         super(userInputReader, name, spaceNr);
@@ -19,14 +18,15 @@ public abstract class Property extends Boardspace {
     }
 
     @Override
-    public int performAction (){
+    public PlayerAction performAction (){
         if (owner == null) {
             buyProperty();
+            return PlayerAction.BUY_PROPERTY;
         }
         if (owner != null) {
             payRent();
         }
-        return spaceNr;
+        return null;
     }
 
     public void payRent() {

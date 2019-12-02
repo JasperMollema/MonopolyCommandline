@@ -9,7 +9,7 @@ public class Freeparking extends Boardspace {
     }
 
     @Override
-    public int performAction() {
-        return spaceNr;
+    public PlayerAction performAction() {
+        return null;
     }
 }

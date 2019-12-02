@@ -9,9 +9,9 @@ public class Start extends Boardspace{
     }
 
     @Override
-    public int performAction() {
+    public PlayerAction performAction() {
         System.out.println(visitor + " staat op start en ontvangt 400 euro!");
         visitor.receiveMoney(400);
-        return spaceNr;
+        return null;
     }
 }

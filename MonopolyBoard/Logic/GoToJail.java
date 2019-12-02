@@ -10,7 +10,7 @@ public class GoToJail extends Boardspace{
     }
 
     @Override
-    public int performAction() {
-        return JAIL_SPACE_NR;
+    public PlayerAction performAction() {
+        return null;
     }
 }

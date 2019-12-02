@@ -1,6 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-public enum PlayerActions {
+public enum PlayerAction {
     BUY_PROPERTY, BUY_HOUSES
 }
 
