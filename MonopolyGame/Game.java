@@ -58,7 +58,7 @@ public class Game {
             return;
         }
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(transactionHandler.determinePlayerTransaction());
-        playerAction.handleAction();
+        playerAction.handleAction(bank, player);
     }
 
     private boolean askIfPlayerWantTransactions(Player player) {

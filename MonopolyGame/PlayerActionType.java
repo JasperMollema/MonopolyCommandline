@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame;
 
 public enum PlayerActionType {
-    BUY_PROPERTY("grond kopen"), BUY_HOUSES("huizen kopen");
+    BUY_PROPERTY("grond kopen"), BUY_HOUSES("huizen kopen"), INVALID_ACTION("Ongeldige actie");
 
     /**
      * Message that describes the player action. The entire message that is displayed

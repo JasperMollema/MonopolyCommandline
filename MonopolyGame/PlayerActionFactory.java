@@ -5,6 +5,6 @@ public class PlayerActionFactory {
         switch (playerActionType) {
             case BUY_HOUSES: return new BuyHousesAction();
         }
-        return null;
+        throw new UnsupportedOperationException("This action is not allowed");
     }
 }
