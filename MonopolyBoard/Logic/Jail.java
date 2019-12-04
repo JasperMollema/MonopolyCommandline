@@ -1,5 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
+import jmol.jasper.MonopolyGame.PlayerActionType;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Jail extends Boardspace {

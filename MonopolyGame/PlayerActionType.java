@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyBoard.Logic;
+package jmol.jasper.MonopolyGame;
 
 public enum PlayerActionType {
     BUY_PROPERTY("grond kopen"), BUY_HOUSES("huizen kopen");

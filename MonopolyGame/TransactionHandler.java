@@ -1,6 +1,5 @@
 package jmol.jasper.MonopolyGame;
 
-import jmol.jasper.MonopolyBoard.Logic.PlayerActionType;
 import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
