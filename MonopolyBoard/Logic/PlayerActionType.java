@@ -1,6 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-public enum PlayerAction {
+public enum PlayerActionType {
     BUY_PROPERTY("grond kopen"), BUY_HOUSES("huizen kopen");
 
     /**
@@ -9,7 +9,7 @@ public enum PlayerAction {
      */
     private String actionMessage;
 
-    private PlayerAction(String actionMessage) {this.actionMessage = actionMessage;}
+    private PlayerActionType(String actionMessage) {this.actionMessage = actionMessage;}
 
     public String getActionMessage(){return actionMessage;}
 }

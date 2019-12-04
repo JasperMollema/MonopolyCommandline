@@ -10,7 +10,7 @@ public class CommunityChest extends CardSpace {
 
 
     @Override
-    public PlayerAction performAction() {
+    public PlayerActionType performAction() {
         System.out.println(visitor.getName() + " trekt een algemeen fonds kaart.");
         return null;
     }

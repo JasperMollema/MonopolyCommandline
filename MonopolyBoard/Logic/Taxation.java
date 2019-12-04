@@ -11,7 +11,7 @@ public class Taxation extends Boardspace {
     }
 
     @Override
-    public PlayerAction performAction() {
+    public PlayerActionType performAction() {
         visitor.payMoney(taxAmount);
         System.out.println(visitor.getName() + " moet " + taxAmount + " belasting betalen!");
         return null;

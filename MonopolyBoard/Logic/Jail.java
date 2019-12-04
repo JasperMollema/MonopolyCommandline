@@ -9,7 +9,7 @@ public class Jail extends Boardspace {
     }
 
     @Override
-    public PlayerAction performAction() {
+    public PlayerActionType performAction() {
         System.out.println("Alleen op bezoek!");
         return null;
     }

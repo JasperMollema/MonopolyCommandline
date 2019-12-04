@@ -57,9 +57,8 @@ public class Game {
         if (!askIfPlayerWantTransactions(player)) {
             return;
         }
-        switch (transactionHandler.determinePlayerTransaction()){
-            case BUY_HOUSES: bank.buyHouses();
-        }
+        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(transactionHandler.determinePlayerTransaction());
+        playerAction.handleAction();
     }
 
     private boolean askIfPlayerWantTransactions(Player player) {

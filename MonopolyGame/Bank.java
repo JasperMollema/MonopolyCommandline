@@ -1,6 +1,5 @@
 package jmol.jasper.MonopolyGame;
 
-import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 
 import java.util.Map;
