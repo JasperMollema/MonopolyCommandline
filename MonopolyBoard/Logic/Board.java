@@ -133,6 +133,12 @@ public class Board {
    }
 
    public Boardspace getBoardspace(int index) {
-        return boardspaces[index];
+       return boardspaces[index];
+    }
+
+    public void makeBoardSpace() {
+       BoardspaceBuilder boardspaceBuilder = new BoardspaceBuilder();
+       boardspaceBuilder.setName("oefen");
+       Boardspace boardspace = boardspaceBuilder.build();
     }
 }
