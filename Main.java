@@ -1,7 +1,7 @@
 package jmol.jasper;
 
-import jmol.jasper.MonopolyGame.Game;
-import jmol.jasper.MonopolyGame.GameSetup;
+import jmol.jasper.MonopolyGame.Logic.Game;
+import jmol.jasper.MonopolyGame.Logic.GameSetup;
 import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Main {

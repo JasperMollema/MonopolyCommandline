@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyGame;
+package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.Player.Logic.Player;
 

@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyGame;
+package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.Utility.Logic.ExpressionValidator;
 import jmol.jasper.Utility.Logic.UserInputReader;

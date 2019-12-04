@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyGame;
+package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;

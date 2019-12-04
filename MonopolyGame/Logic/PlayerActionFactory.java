@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyGame;
+package jmol.jasper.MonopolyGame.Logic;
 
 public class PlayerActionFactory {
     public static PlayerAction getPlayerAction(PlayerActionType playerActionType) {

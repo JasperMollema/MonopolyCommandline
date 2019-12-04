@@ -1,4 +1,4 @@
-package jmol.jasper.MonopolyGame;
+package jmol.jasper.MonopolyGame.Logic;
 
 public enum PlayerActionType {
     BUY_PROPERTY("grond kopen"), BUY_HOUSES("huizen kopen"), INVALID_ACTION("Ongeldige actie");
