@@ -1,6 +1,6 @@
-package jmol.jasper.Utility.Test;
+package jmol.jasper.UserInterface.Test;
 
-import jmol.jasper.Utility.Logic.UserInputReader;
+import jmol.jasper.UserInterface.Logic.UserInputReader;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

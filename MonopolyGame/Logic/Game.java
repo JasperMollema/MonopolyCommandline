@@ -4,8 +4,8 @@ import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.ExpressionValidator;
-import jmol.jasper.Utility.Logic.UserInputReader;
+import jmol.jasper.UserInterface.Logic.ExpressionValidator;
+import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.ArrayList;
 import java.util.List;

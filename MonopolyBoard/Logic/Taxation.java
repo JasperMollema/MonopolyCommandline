@@ -1,13 +1,12 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
 import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
-import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Taxation extends Boardspace {
     private int taxAmount;
 
-    public Taxation(UserInputReader userInputReader, String name, int spaceNr, int taxAmount) {
-        super(userInputReader, name, spaceNr);
+    public Taxation(String name, int spaceNr, int taxAmount) {
+        super(name, spaceNr);
         this.taxAmount = taxAmount;
     }
 

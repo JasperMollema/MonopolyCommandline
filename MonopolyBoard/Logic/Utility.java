@@ -1,11 +1,9 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-import jmol.jasper.Utility.Logic.UserInputReader;
-
 public class Utility extends Property {
 
-    public Utility(UserInputReader userInputReader, String name, int spaceNr, String type, int nrOfInstances, int[]values) {
-        super(userInputReader, name, spaceNr, type, nrOfInstances, values);
+    public Utility(String name, int spaceNr, MonopolyBoardData.PropertyType propertyType, int nrOfIdenticalTypes, int value) {
+        super(name, spaceNr, propertyType, nrOfIdenticalTypes, value);
     }
 
     @Override

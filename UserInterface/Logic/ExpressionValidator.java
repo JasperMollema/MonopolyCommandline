@@ -1,4 +1,4 @@
-package jmol.jasper.Utility.Logic;
+package jmol.jasper.UserInterface.Logic;
 
 public class ExpressionValidator {
     private static ExpressionValidator instance;

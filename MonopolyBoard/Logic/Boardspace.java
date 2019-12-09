@@ -2,7 +2,6 @@ package jmol.jasper.MonopolyBoard.Logic;
 
 import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Boardspace {
     protected String name;
@@ -18,7 +17,6 @@ public class Boardspace {
     protected int rentForHotel;
     protected String type;
     protected int taxAmount;
-    protected UserInputReader userInputReader;
     protected Player visitor;
     protected int diceThrowVisitor;
 
@@ -40,8 +38,7 @@ public class Boardspace {
         this.taxAmount = taxAmount;
     }
 
-    public Boardspace(UserInputReader userInputReader, String name, int spaceNr){
-        this.userInputReader = userInputReader;
+    public Boardspace(String name, int spaceNr){
         this.name = name;
         this.spaceNr = spaceNr;
     }

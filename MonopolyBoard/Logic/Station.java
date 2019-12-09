@@ -1,11 +1,9 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-import jmol.jasper.Utility.Logic.UserInputReader;
-
 public class Station extends Property {
 
-    public Station(UserInputReader userInputReader, String name, int spaceNr, String type, int nrOfInstances, int[] values) {
-        super(userInputReader, name, spaceNr, type, nrOfInstances, values);
+    public Station(String name, int spaceNr, PropertyType propertyType, int nrOfInstances, int value) {
+        super(name, spaceNr, propertyType, nrOfInstances, value);
     }
 
 

@@ -1,4 +1,4 @@
-package jmol.jasper.Utility.Logic;
+package jmol.jasper.UserInterface.Logic;
 
 import java.util.Arrays;
 import java.util.List;

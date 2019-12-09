@@ -3,8 +3,8 @@ package jmol.jasper.MonopolyGame.Logic;
 import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.ExpressionValidator;
-import jmol.jasper.Utility.Logic.UserInputReader;
+import jmol.jasper.UserInterface.Logic.ExpressionValidator;
+import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.HashMap;
 import java.util.Map;

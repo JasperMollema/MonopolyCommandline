@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.Utility.Logic.ExpressionValidator;
-import jmol.jasper.Utility.Logic.UserInputReader;
+import jmol.jasper.UserInterface.Logic.ExpressionValidator;
+import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 public class TransactionHandler {
     private UserInputReader userInputReader;

@@ -1,29 +1,26 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.UserInputReader;
 
 public class Street extends Property {
-    private final int PRICE_HOUSE;
-    private final int RENT_NO_HOUSES;
-    private final int RENT_1_HOUSE;
-    private final int RENT_2_HOUSES;
-    private final int RENT_3_HOUSES;
-    private final int RENT_4_HOUSES;
-    private final int RENT_HOTEL;
+    public final int PRICE_HOUSE;
+    public final int RENT_NO_HOUSES;
+    public final int RENT_1_HOUSE;
+    public final int RENT_2_HOUSES;
+    public final int RENT_3_HOUSES;
+    public final int RENT_4_HOUSES;
+    public final int RENT_HOTEL;
     private int numberOfHouses;
-    private String city;
 
-    public Street(UserInputReader userInputReader, String name, int spaceNr, String type, int nrOfStreetsInCity, int[] values, String city) {
-        super(userInputReader, name, spaceNr, type, nrOfStreetsInCity, values);
-        this.city = city;
-        PRICE_HOUSE = values[1];
-        RENT_NO_HOUSES = values[2];
-        RENT_1_HOUSE = values[3];
-        RENT_2_HOUSES = values[4];
-        RENT_3_HOUSES = values[5];
-        RENT_4_HOUSES = values[6];
-        RENT_HOTEL = values[7];
+    public Street(String name, int spaceNr, MonopolyBoardData.PropertyType propertyType, int value, int priceHouse, int[] rents) {
+        super(name, spaceNr, propertyType, value);
+        PRICE_HOUSE = priceHouse;
+        RENT_NO_HOUSES = rents[0];
+        RENT_1_HOUSE = rents[1];
+        RENT_2_HOUSES = rents[2];
+        RENT_3_HOUSES = rents[3];
+        RENT_4_HOUSES = rents[4];
+        RENT_HOTEL = rents[5];
     }
 
     @Override

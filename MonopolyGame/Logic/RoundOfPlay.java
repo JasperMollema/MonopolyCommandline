@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.Utility.Logic.UserInputReader;
+import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 public class RoundOfPlay {
     private UserInputReader userInputReader;
