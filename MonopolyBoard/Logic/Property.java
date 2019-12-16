@@ -5,16 +5,12 @@ import jmol.jasper.Player.Logic.Player;
 
 public abstract class Property extends Boardspace {
     public final int VALUE;
-    public final MonopolyBoardData.PropertyType PROPERTY_TYPE;
-    public final int NR_OF_IDENTICAL_TYPES;
 
     protected Player owner;
 
-    public Property(String name, int spaceNr, MonopolyBoardData.PropertyType propertyType, int value) {
-        super(name, spaceNr);
+    public Property(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType, int value) {
+        super(name, spaceNr, boardspaceType);
         VALUE = value;
-        PROPERTY_TYPE = propertyType;
-        NR_OF_IDENTICAL_TYPES = propertyType.getNrOfTypes();
     }
 
     @Override
@@ -67,17 +63,11 @@ public abstract class Property extends Boardspace {
 //        if (!wantToBuyProperty()) {
 //            return false;
 //        }
-        if (!visitor.buyProperty(this, value)) {
-            return false;
-        }
+//        if (!visitor.buyProperty(this, value)) {
+//            return false;
+//        }
         return true;
     }
 
     public abstract int calculateRent();
-
-    public String getType() {
-        return type;
-    }
-
-    public int getValue() {return value;}
 }

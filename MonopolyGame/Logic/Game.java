@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
+import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionValidator;
@@ -15,7 +15,6 @@ public class Game {
     private List<Player> players;
     private UserInputReader userInputReader;
     private Map<Player, Boardspace> playerBoardspaceMap;
-    private Board board;
     private int nrOfRounds;
     private Bank bank;
     private TransactionHandler transactionHandler;
@@ -24,7 +23,6 @@ public class Game {
         players = makeArrayList(gameSetup.getPlayers());
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
         userInputReader = gameSetup.getUserInputReader();
-        board = gameSetup.getBoard();
         bank = gameSetup.getBank();
         transactionHandler = new TransactionHandler(userInputReader);
     }
@@ -94,7 +92,7 @@ public class Game {
             System.out.println(player + " is voorbij start gekomen en ontvangt 200 euro!");
             player.receiveMoney(200);
         }
-        playerBoardspaceMap.put(player, board.getBoardspace(newBoardSpaceNr));
+        playerBoardspaceMap.put(player, MonopolyBoardData.getBoardspace(newBoardSpaceNr));
     }
 
     private void performBoardspaceActions(Player player, int diceThrow) {
@@ -113,7 +111,7 @@ public class Game {
     private String showPlayerStatus(Player player) {
         StringBuilder playerStatus = new StringBuilder(player.getName());
         playerStatus.append(" staat op ");
-        playerStatus.append(board.getBoardspace(player.getBoardspaceNr()).getName());
+        playerStatus.append(MonopolyBoardData.getBoardspace(player.getBoardspaceNr()).getName());
         playerStatus.append(" en heeft ");
         playerStatus.append(player.getAmountOfMoney() + " euro.");
         playerStatus.append(System.lineSeparator());

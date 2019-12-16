@@ -5,8 +5,8 @@ import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 public class Taxation extends Boardspace {
     private int taxAmount;
 
-    public Taxation(String name, int spaceNr, int taxAmount) {
-        super(name, spaceNr);
+    public Taxation(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType, int taxAmount) {
+        super(name, spaceNr, boardspaceType);
         this.taxAmount = taxAmount;
     }
 

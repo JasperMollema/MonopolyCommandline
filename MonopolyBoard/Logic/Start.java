@@ -4,8 +4,8 @@ import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class Start extends Boardspace{
 
-    public Start(String name, int spaceNr) {
-        super(name, spaceNr);
+    public Start(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType) {
+        super(name, spaceNr, boardspaceType);
     }
 
     @Override

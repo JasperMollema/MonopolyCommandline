@@ -4,8 +4,8 @@ import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class CommunityChest extends CardSpace {
 
-    public CommunityChest(String name, int spaceNr) {
-        super(name, spaceNr);
+    public CommunityChest(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType) {
+        super(name, spaceNr, boardspaceType);
     }
 
 

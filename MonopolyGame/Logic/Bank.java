@@ -1,46 +1,44 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Property;
+import jmol.jasper.MonopolyBoard.Logic.*;
+import jmol.jasper.Player.Logic.Player;
 
+import java.util.List;
 import java.util.Map;
 
 public class  Bank {
     private int nrOfHouses;
     private int nrOfHotels;
-    private Map <Integer, Property> properties;
+    private final int NR_OF_HOUSES = 32;
+    private final int NR_OF_HOTELS = 12;
+    private List<Street> onsDorp;
+    private List<Street> arnhem;
+    private List<Street> haarlem;
+    private List<Street> utrecht;
+    private List<Street> groningen;
+    private List<Street> denHaag;
+    private List<Street> rotterdam;
+    private List<Street> amsterdam;
+    private List<Utility> nutsBedrijven;
+    private List<Station> stations;
+    private Map <Player, List<Property>> playerListMap;
 
     public Bank() {
-        nrOfHouses = 32;
-        nrOfHotels = 12;
+        nrOfHouses = NR_OF_HOUSES;
+        nrOfHotels = NR_OF_HOTELS;
+        onsDorp = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_DORP);
+        arnhem = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_ARHNEM);
+        haarlem = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_HAARLEM);
+        utrecht = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_UTRECHT);
+        groningen = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_GRONINGEN);
+        denHaag = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_DEN_HAAG);
+        rotterdam = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_ROTTERDAM);
+        amsterdam = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_AMSTERDAM);
+        nutsBedrijven = new Board<Utility>().getBoardspaceList(MonopolyBoardData.BoardspaceType.UTILITY);
+        stations = new Board<Station>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STATION);
     }
 
-    public void buyHouses(){}
+    public void buyProperty() {
 
-    public int buyHouses (int amountHouses) {
-        int housesBought;
-        if (amountHouses > nrOfHouses) {
-           housesBought = nrOfHouses;
-           nrOfHouses = 0;
-        }
-        else {
-            housesBought = amountHouses;
-        }
-        return housesBought;
-    }
-
-    public int buyHotels (int amountHotels) {
-        int hotelsBought;
-        if (amountHotels > nrOfHotels) {
-            hotelsBought = nrOfHotels;
-            nrOfHotels = 0;
-        }
-        else {
-            hotelsBought = amountHotels;
-        }
-        return hotelsBought;
-    }
-
-    public void addProperty(int boardSpaceNumber, Property property) {
-        properties.put(boardSpaceNumber, property);
     }
 }

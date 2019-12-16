@@ -3,7 +3,6 @@ package jmol.jasper.Player.Logic;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 
 import java.util.*;
-import java.util.function.BiFunction;
 
 public class Player {
     private String name;
@@ -100,10 +99,10 @@ public class Player {
     }
 
     private void addToPropertyList(Property property) {
-        properties.add(property);
-        String propertyType = property.getType();
-        BiFunction<Integer, Integer, Integer> mapper = (v1, v2) -> v1 + 1;
-        propertyMap.merge(propertyType, 1, mapper);
+//        properties.add(property);
+//        String propertyType = property.getType();
+//        BiFunction<Integer, Integer, Integer> mapper = (v1, v2) -> v1 + 1;
+//        propertyMap.merge(propertyType, 1, mapper);
     }
 
     @Override

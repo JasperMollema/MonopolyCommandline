@@ -4,8 +4,8 @@ import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class Jail extends Boardspace {
 
-    public Jail(String name, int spaceNr) {
-        super(name, spaceNr);
+    public Jail(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType) {
+        super(name, spaceNr, boardspaceType);
     }
 
     @Override

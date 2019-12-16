@@ -4,8 +4,8 @@ import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class Chance extends CardSpace {
 
-    public Chance(String name, int spaceNr) {
-        super(name, spaceNr);
+    public Chance(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType) {
+        super(name, spaceNr, boardspaceType);
     }
 
     @Override

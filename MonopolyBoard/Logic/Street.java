@@ -12,8 +12,8 @@ public class Street extends Property {
     public final int RENT_HOTEL;
     private int numberOfHouses;
 
-    public Street(String name, int spaceNr, MonopolyBoardData.PropertyType propertyType, int value, int priceHouse, int[] rents) {
-        super(name, spaceNr, propertyType, value);
+    public Street(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType, int value, int priceHouse, int[] rents) {
+        super(name, spaceNr, boardspaceType, value);
         PRICE_HOUSE = priceHouse;
         RENT_NO_HOUSES = rents[0];
         RENT_1_HOUSE = rents[1];
@@ -62,7 +62,7 @@ public class Street extends Property {
     }
 
     private boolean cityOwnedBySinglePlayer() {
-        owner.hasAllInstances(type, nrOfInstances);
+        owner.hasAllInstances("", 2);
         return true;
     }
 }

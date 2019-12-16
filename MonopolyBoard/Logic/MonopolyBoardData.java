@@ -1,12 +1,7 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
 public class MonopolyBoardData {
-    /**
-     * The Monopoly board.
-     */
-    public static final Boardspace[] monopolyBoard;
-
-    /**
+     /**
      * The names of the boardspaces.
      */
     public static final String START = "Start";
@@ -92,15 +87,16 @@ public class MonopolyBoardData {
     public static final int SPACENR_KALVERSTRAAT = 39;
 
     /**
-     * De property types.
+     * De boardspace types.
      */
-    public enum PropertyType{STATION(4), UTILITY(2), STREET_DORP(2),
+    public enum BoardspaceType {STATION(4), UTILITY(2), STREET_DORP(2),
         STREET_ARHNEM(3), STREET_HAARLEM(3), STREET_UTRECHT(3),
-        STREET_GRONINGEN(3), STREET_DEN_HAAG(3), STREET_ROTTERDAM(3), STREET_AMSTERDAM(2);
+        STREET_GRONINGEN(3), STREET_DEN_HAAG(3), STREET_ROTTERDAM(3), STREET_AMSTERDAM(2),
+        START(1), CARD(6), GO_TO_JAIL(1), JAIL(1), FREE_PARKING(1), TAX(2);
 
     private int nrOfTypes;
 
-    private PropertyType(int nrOfTypes) {
+    private BoardspaceType(int nrOfTypes) {
         this.nrOfTypes = nrOfTypes;
     }
         public int getNrOfTypes() {
@@ -162,50 +158,58 @@ public class MonopolyBoardData {
      * Taxation values.
      */
     public static final int BEDRAG_INKOMENSBELASTING = 200;
-    public static final int BEDRAG_LUXE_BELASTING = 400;
+    public static final int BEDRAG_LUXE_BELASTING = 100;
 
-    static {
-        monopolyBoard = new Boardspace[]{
-                new Start(START, SPACENR_START),
-                new Street(DORPSSTRAAT, SPACENR_DORPSSTRAAT, PropertyType.STREET_DORP, DORP_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, DORP_HUUR_NORMAAL)};
-                new CommunityChest(ALGEMEEN_FONDS, SPACENR_ALGEMEEN_FONDS_1),
-                new Street(BRINK, SPACENR_BRINK, PropertyType.STREET_DORP, DORP_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, DORP_HUUR_DUUR),
-                new Taxation(INKOMSTENBELASTING, SPACENR_INKOMSTENBELASTING, ),
-                new Station("Station Zuid", STATION_ZUID, STATION, 4, STATION_PRIJZEN),
-                new Street("Steenstraat", STEENSTRAAT, STRAAT, 3, ARNHEM_PRIJZEN_NORMAAL, ARNHEM),
-                new Chance("Kans", KANS_1),
-                new Street("Ketelstraat", KETELSTRAAT, STRAAT, 3, ARNHEM_PRIJZEN_NORMAAL, ARNHEM),
-                new Street("Velperplein", VELPERPLEIN, STRAAT, 3, ARNHEM_PRIJZEN_DUUR, ARNHEM),
-                new Jail("Gevangenis", GEVANGENIS),
-                new Street("Barteljorisstraat", BARTELJORISSTRAAT, STRAAT, 3, HAARLEM_PRIJZEN_NORMAAL, HAARLEM),
-                new ("Elektriciteitsbedrijf", ELEKTRICITEITSBEDRIJF, NUTSBEDRIJF, 2, NUTS_PRIJZEN),
-                new Street("Zijlweg", ZIJLWEG, STRAAT, 3, HAARLEM_PRIJZEN_NORMAAL, HAARLEM),
-                new Street("Grote Houtstraat", GROTE_HOUTSTRAAT, STRAAT, 3, HAARLEM_PRIJZEN_DUUR, HAARLEM),
-                new Station("Station West", STATION_WEST, STATION, 4, STATION_PRIJZEN),
-                new Street("Neude", NEUDE, STRAAT, 3, UTRECHT_PRIJZEN_NORMAAL, UTRRECHT),
-                new CommunityChest("Algemeen Fonds", ALGEMEEN_FONDS_2),
-                new Street("Biltstraat", BILTSTRAAT, STRAAT, 3, UTRECHT_PRIJZEN_NORMAAL, UTRRECHT),
-                new Street("Vreeburg", VREEBURG, STRAAT, 3, UTRECHT_PRIJZEN_DUUR, UTRRECHT),
-                new Freeparking("Vrij parkeren", VRIJ_PARKEREN),
-                new Street("A Kerkhof", A_KERKHOF, STRAAT, 3, GRONINGEN_PRIJZEN_NORMAAL, GRONINGEN),
-                new Chance("Kans", KANS_2),
-                new Street("Grote Markt", GROTE_MARKT, STRAAT, 3, GRONINGEN_PRIJZEN_NORMAAL, GRONINGEN),
-                new Street("Heerestraat", HEERESTRAAT, STRAAT, 3, GRONINGEN_PRIJZEN_DUUR, GRONINGEN),
-                new Station("Station Noord", STATION_NOORD, STATION, 4, STATION_PRIJZEN),
-                new Street("Spui", SPUI, STRAAT, 3, DEN_HAAG_PRIJZEN_NORMAAL, DEN_HAAG),
-                new Street("Plein", PLEIN, STRAAT, 3, DEN_HAAG_PRIJZEN_NORMAAL, DEN_HAAG),
-                new ("Waterleiding", WATERLEIDING, NUTSBEDRIJF, 4, NUTS_PRIJZEN),
-                new Street("Lange Poten", LANGE_POTEN, STRAAT, 3, DEN_HAAG_PRIJZEN_DUUR, DEN_HAAG),
-                new GoToJail("Ga naar de gevangenis", GA_NAAR_DE_GEVANGENIS),
-                new Street("Hofplein", HOFPLEIN, STRAAT, 3, ROTTERDAM_PRIJZEN_NORMAAL, ROTTERDAM),
-                new Street("Blaak", BLAAK, STRAAT, 3, ROTTERDAM_PRIJZEN_NORMAAL, ROTTERDAM),
-                new CommunityChest("Algemeen Fonds", ALGEMEEN_FONDS_3),
-                new Street("Coolsingel", COOLSINGEL, STRAAT, 3, ROTTERDAM_PRIJZEN_DUUR, ROTTERDAM),
-                new Station("Station Oost", STATION_OOST, STATION, 4, STATION_PRIJZEN),
-                new Chance("Kans", KANS_3),
-                new Street("Leidse Plein", LEIDSE_PLEIN, STRAAT, 2, AMSTERDAM_PRIJZEN_NORMAAL, AMSTERDAM),
-                new Taxation("Luxe belasting", LUXE_BELASTING, 100),
-                new Street("Kalverstraat", KALVERSTRAAT, STRAAT,
-                new Street(2, AMSTERDAM_PRIJZEN_DUUR, AMSTERDAM)
+    /**
+    * The Monopoly board.
+    */
+    public static final Boardspace[] MONOPOLYBOARD = new Boardspace[]{
+           new Start(START, SPACENR_START, BoardspaceType.START),
+           new Street(DORPSSTRAAT, SPACENR_DORPSSTRAAT, BoardspaceType.STREET_DORP, DORP_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, DORP_HUUR_NORMAAL),
+           new CommunityChest(ALGEMEEN_FONDS, SPACENR_ALGEMEEN_FONDS_1, BoardspaceType.CARD),
+           new Street(BRINK, SPACENR_BRINK, BoardspaceType.STREET_DORP, DORP_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, DORP_HUUR_DUUR),
+           new Taxation(INKOMSTENBELASTING, SPACENR_INKOMSTENBELASTING, BoardspaceType.TAX, BEDRAG_INKOMENSBELASTING),
+           new Station(STATION_ZUID, SPACENR_STATION_ZUID, BoardspaceType.STATION, STATION_WAARDE),
+           new Street(STEENSTRAAT, SPACENR_STEENSTRAAT, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
+           new Chance(KANS, SPACENR_KANS_1, BoardspaceType.CARD),
+           new Street(KETELSTRAAT, SPACENR_KETELSTRAAT, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
+           new Street(VELPERPLEIN, SPACENR_VELPERPLEIN, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_DUUR),
+           new Jail(GEVANGENIS, SPACENR_GEVANGENIS, BoardspaceType.JAIL),
+           new Street(BARTELJORISSTRAAT, SPACENR_BARTELJORISSTRAAT, BoardspaceType.STREET_HAARLEM, HAARLEM_WAARDE_NORMAAL, HAARLEM_UTRECHT_HUISPRIJS, HAARLEM_HUUR_NORMAAL),
+           new Utility(ELEKTRICITEITSBEDRIJF, SPACENR_ELEKTRICITEITSBEDRIJF, BoardspaceType.UTILITY, NUTS_WAARDE),
+           new Street(ZIJLWEG, SPACENR_ZIJLWEG, BoardspaceType.STREET_HAARLEM, HAARLEM_WAARDE_NORMAAL, HAARLEM_UTRECHT_HUISPRIJS, HAARLEM_HUUR_NORMAAL),
+           new Street(GROTE_HOUTSTRAAT, SPACENR_GROTE_HOUTSTRAAT, BoardspaceType.STREET_HAARLEM, HAARLEM_WAARDE_DUUR, HAARLEM_UTRECHT_HUISPRIJS, HAARLEM_HUUR_DUUR),
+           new Station(STATION_WEST, SPACENR_STATION_WEST, BoardspaceType.STATION, STATION_WAARDE),
+           new Street(NEUDE, SPACENR_NEUDE, BoardspaceType.STREET_UTRECHT, UTRECHT_WAARDE_NORMAAL, HAARLEM_UTRECHT_HUISPRIJS, UTRECHT_HUUR_NORMAAL),
+           new CommunityChest(ALGEMEEN_FONDS, SPACENR_ALGEMEEN_FONDS_2, BoardspaceType.CARD),
+           new Street(BILTSTRAAT, SPACENR_BILTSTRAAT, BoardspaceType.STREET_UTRECHT, UTRECHT_WAARDE_NORMAAL, HAARLEM_UTRECHT_HUISPRIJS, UTRECHT_HUUR_NORMAAL),
+           new Street(VREEBURG, SPACENR_VREEBURG, BoardspaceType.STREET_UTRECHT, UTRECHT_WAARDE_DUUR, HAARLEM_UTRECHT_HUISPRIJS, UTRECHT_HUUR_DUUR),
+           new Freeparking(VRIJ_PARKEREN, SPACENR_VRIJ_PARKEREN, BoardspaceType.FREE_PARKING),
+           new Street(A_KERKHOF, SPACENR_A_KERKHOF, BoardspaceType.STREET_GRONINGEN, GRONINGEN_WAARDE_NORMAAL, GRONINGEN_DEN_HAAG_HUISPRIJS, GRONINGEN_HUUR_NORMAAL),
+           new Chance(KANS, SPACENR_KANS_2, BoardspaceType.CARD),
+           new Street(GROTE_MARKT, SPACENR_GROTE_MARKT, BoardspaceType.STREET_GRONINGEN, GRONINGEN_WAARDE_NORMAAL, GRONINGEN_DEN_HAAG_HUISPRIJS, GRONINGEN_HUUR_NORMAAL),
+           new Street(HEERESTRAAT, SPACENR_HEERESTRAAT, BoardspaceType.STREET_GRONINGEN, GRONINGEN_WAARDE_DUUR, GRONINGEN_DEN_HAAG_HUISPRIJS, GRONINGEN_HUUR_DUUR),
+           new Station(STATION_NOORD, SPACENR_STATION_NOORD, BoardspaceType.STATION, STATION_WAARDE),
+           new Street(SPUI, SPACENR_SPUI, BoardspaceType.STREET_DEN_HAAG, DEN_HAAG_WAARDE_NORMAAL, GRONINGEN_DEN_HAAG_HUISPRIJS, DEN_HAAG_HUUR_NORMAAL),
+           new Street(PLEIN, SPACENR_PLEIN, BoardspaceType.STREET_DEN_HAAG, DEN_HAAG_WAARDE_NORMAAL, GRONINGEN_DEN_HAAG_HUISPRIJS, DEN_HAAG_HUUR_NORMAAL),
+           new Utility(WATERLEIDING, SPACENR_WATERLEIDING, BoardspaceType.UTILITY, NUTS_WAARDE),
+           new Street(LANGE_POTEN, SPACENR_LANGE_POTEN, BoardspaceType.STREET_DEN_HAAG, DEN_HAAG_WAARDE_DUUR, GRONINGEN_DEN_HAAG_HUISPRIJS, DEN_HAAG_HUUR_DUUR),
+           new GoToJail(GA_NAAR_DE_GEVANGENIS, SPACENR_GA_NAAR_DE_GEVANGENIS, BoardspaceType.GO_TO_JAIL),
+           new Street(HOFPLEIN, SPACENR_HOFPLEIN, BoardspaceType.STREET_ROTTERDAM, ROTTERDAM_WAARDE_NORMAAL, ROTTERDAM_AMSTERDAM_HUISPRIJS, ROTTERDAM_HUUR_NORMAAL),
+           new Street(BLAAK, SPACENR_BLAAK, BoardspaceType.STREET_ROTTERDAM, ROTTERDAM_WAARDE_NORMAAL, ROTTERDAM_AMSTERDAM_HUISPRIJS, ROTTERDAM_HUUR_NORMAAL),
+           new CommunityChest(ALGEMEEN_FONDS, SPACENR_ALGEMEEN_FONDS_3, BoardspaceType.CARD),
+           new Street(COOLSINGEL, SPACENR_COOLSINGEL, BoardspaceType.STREET_ROTTERDAM, ROTTERDAM_WAARDE_DUUR, ROTTERDAM_AMSTERDAM_HUISPRIJS, ROTTERDAM_HUUR_DUUR),
+           new Station(STATION_OOST, SPACENR_STATION_OOST, BoardspaceType.STATION, STATION_WAARDE),
+           new Chance(KANS, SPACENR_KANS_3, BoardspaceType.CARD),
+           new Street(LEIDSE_PLEIN, SPACENR_LEIDSE_PLEIN, BoardspaceType.STREET_AMSTERDAM, AMSTERDAM_WAARDE_NORMAAL, ROTTERDAM_AMSTERDAM_HUISPRIJS, AMSTERDAM_HUUR_NORMAAL),
+           new Taxation(LUXE_BELASTING, SPACENR_LUXE_BELASTING, BoardspaceType.TAX, BEDRAG_LUXE_BELASTING),
+           new Street(KALVERSTRAAT, SPACENR_KALVERSTRAAT, BoardspaceType.STREET_AMSTERDAM, AMSTERDAM_WAARDE_DUUR, ROTTERDAM_AMSTERDAM_HUISPRIJS, AMSTERDAM_HUUR_DUUR)
+        };
+
+    public static Boardspace getBoardspace(int boardspaceNr) {
+        if (boardspaceNr > MONOPOLYBOARD.length -1) {
+            return null;
         }
-}
+        return MONOPOLYBOARD[boardspaceNr];
+        }
+    }

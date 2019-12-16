@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Board;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
+import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionValidator;
 import jmol.jasper.UserInterface.Logic.UserInputReader;
@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class GameSetup {
-    private Board board;
     private Player[] players;
     private Bank bank;
     private UserInputReader userInputReader;
@@ -20,10 +19,8 @@ public class GameSetup {
     private final int MIN_PLAYERS = 2;
     private final int MIN_NAME_LENGHT = 1;
     private final int MAX_NAME_LENGHT = 12;
-    private final int START = 0;
 
     public GameSetup(UserInputReader userInputReader) {
-        board = new Board(userInputReader);
         playerBoardspaceMap = new HashMap<>();
         this.userInputReader = userInputReader;
     }
@@ -38,7 +35,7 @@ public class GameSetup {
         createPlayers();
         for (Player player : players) {
             // Put all the players on the start space.
-            playerBoardspaceMap.put(player, board.getBoardspace(START));
+            playerBoardspaceMap.put(player, MonopolyBoardData.getBoardspace(MonopolyBoardData.SPACENR_START));
         }
     }
 
@@ -94,10 +91,6 @@ public class GameSetup {
         bank = new Bank();
 
     }
-    public Board getBoard() {
-        return board;
-    }
-
     public Player[] getPlayers() {
         return players;
     }
