@@ -4,7 +4,7 @@ import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.UserInterface.Logic.ExpressionValidator;
+import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.ArrayList;
@@ -24,12 +24,13 @@ public class Game {
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
         userInputReader = gameSetup.getUserInputReader();
         bank = gameSetup.getBank();
+        bank.fillPlayerlistMap(players);
         transactionHandler = new TransactionHandler(userInputReader);
     }
 
     public void startGame(){
         while (!gameIsOver()) {
-            playRound();
+            playTurn();
             nrOfRounds ++;
         }
         System.out.println(players.get(0) + " heeft gewonnen!");
@@ -40,33 +41,33 @@ public class Game {
         return players.size() == 1;
     }
 
-    private void playRound() {
+    private void playTurn() {
         for (Player player : players) {
-            handleTransactions(player);
-            playRound(player);
-            handleTransactions(player);
+            playTurn(player);
             if (player.isGameOver()) {
                 handleGameOver(player);
             }
         }
     }
 
-    private void handleTransactions(Player player) {
+    private void handleBoardTransactions(PlayerActionType playerActionType, Player player) {
+        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
+
+        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player));
+    }
+
+    private void handlePlayerTransactions(Player player) {
         if (!askIfPlayerWantTransactions(player)) {
             return;
         }
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(transactionHandler.determinePlayerTransaction());
-        playerAction.handleAction(bank, player);
+        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player));
     }
 
     private boolean askIfPlayerWantTransactions(Player player) {
-        System.out.println("Wil " + player.getName() + " transacties uitvoeren?");
-        Boolean wantHandleTransactions = userInputReader.getBoolean();
-        while (!ExpressionValidator.getInstance().isValidBoolean(wantHandleTransactions)) {
-            System.out.println("Voer ja, j, yes, y voor ja en nee, no, n voor nee");
-            wantHandleTransactions = userInputReader.getBoolean();
-        }
-        return wantHandleTransactions;
+        return ExpressionProvider.getInstance().
+                getBoolean(("Wil " + player.getName() + " transacties uitvoeren?"), userInputReader);
+
     }
 
     private void handleGameOver(Player player) {
@@ -75,37 +76,48 @@ public class Game {
         System.out.println(player + " is failliet en doet niet meer mee!");
     }
 
-    private void playRound(Player player) {
+    private void playTurn(Player player) {
         RoundOfPlay roundOfPlay = new RoundOfPlay(player, userInputReader);
         do {
-            int currentBoardSpaceNr = player.getBoardspaceNr();
             roundOfPlay.play();
-            putPlayerOnNewBoardSpace(player, currentBoardSpaceNr);
+            putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow());
             performBoardspaceActions(player, roundOfPlay.getTotalThrow());
+            handlePlayerTransactions(player);
         }
         while (roundOfPlay.determineCanThrowAgain());
     }
 
-    private void putPlayerOnNewBoardSpace(Player player, int previousBoardSpaceNr) {
-        int newBoardSpaceNr = player.getBoardspaceNr();
+    private void putPlayerOnNewBoardSpace(Player player, int diceThrow) {
+        int previousBoardSpaceNr = playerBoardspaceMap.get(player).getSpaceNr();
+        int newBoardSpaceNr = determineNewBoardspaceNr(previousBoardSpaceNr, diceThrow);
+
         if (newBoardSpaceNr != 0 && newBoardSpaceNr<previousBoardSpaceNr) {
             System.out.println(player + " is voorbij start gekomen en ontvangt 200 euro!");
             player.receiveMoney(200);
         }
+        player.moveToBoardspace(newBoardSpaceNr);
         playerBoardspaceMap.put(player, MonopolyBoardData.getBoardspace(newBoardSpaceNr));
+    }
+
+    private int determineNewBoardspaceNr(int previousBoardspaceNr, int diceThrow) {
+        int newBoardspaceNr = previousBoardspaceNr + diceThrow;
+        if (newBoardspaceNr > MonopolyBoardData.MAX_BOARDSPACE_NR) {
+            newBoardspaceNr -= MonopolyBoardData.MAX_BOARDSPACE_NR - 1;
+        }
+        return newBoardspaceNr;
     }
 
     private void performBoardspaceActions(Player player, int diceThrow) {
         Boardspace boardspace = playerBoardspaceMap.get(player);
         boardspace.prepareAction(player, diceThrow);
-        boardspace.performAction();
+        handleBoardTransactions(boardspace.performAction(), player);
     }
 
     private void printGameStatus(){
         for (Player player : players){
             System.out.println(showPlayerStatus(player));
         }
-        System.out.println("Er zijn " + nrOfRounds + " gespeeld.");
+        System.out.println("Er zijn " + nrOfRounds + " ronden gespeeld.");
     }
 
     private String showPlayerStatus(Player player) {

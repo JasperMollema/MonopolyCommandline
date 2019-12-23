@@ -3,7 +3,7 @@ package jmol.jasper.MonopolyGame.Logic;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.Player.Logic.Player;
 
-public class BuyHousesAction extends PlayerAction {
+public class PayRentAction extends PlayerAction {
     @Override
     public void handleAction(Bank bank, Player player, Boardspace boardspace) {
     }

@@ -28,15 +28,18 @@ public class Player {
     }
 
     public boolean buyProperty(Property property, int price){
-        if (properties.contains(property) || !property.buyProperty(this)){
+        if (properties.contains(property)){
             return false;
         }
-        if (!payMoney(price)) {
+        if (amountOfMoney < price) {
             return false;
         }
-        addToPropertyList(property);
-        System.out.println(name + " is nu eigendom van: " + property.getName());
+        properties.add(property);
         return true;
+    }
+
+    public void moveToBoardspace(int boardspaceNr) {
+        this.boardspaceNr = boardspaceNr;
     }
 
     public boolean hasAllInstances(String type, int nrOfInstances) {
@@ -52,16 +55,6 @@ public class Player {
             return 0;
         }
         return propertyMap.get(type);
-    }
-
-    public void move(int numberOfSpaces){
-        if (numberOfSpaces < 1 || numberOfSpaces > 12){
-            return;
-        }
-        boardspaceNr += numberOfSpaces;
-        if (!(boardspaceNr<40)){
-            boardspaceNr -= 40;
-        }
     }
 
     public boolean receiveMoney(int amount) {
@@ -92,19 +85,6 @@ public class Player {
     public boolean canAffordPayment(int amtToPay) {
         return (amountOfMoney - amtToPay) > 0;
     }
-
-    public boolean canBuyHouses() {
-
-        return true;
-    }
-
-    private void addToPropertyList(Property property) {
-//        properties.add(property);
-//        String propertyType = property.getType();
-//        BiFunction<Integer, Integer, Integer> mapper = (v1, v2) -> v1 + 1;
-//        propertyMap.merge(propertyType, 1, mapper);
-    }
-
     @Override
     public String toString(){
         return name;

@@ -16,13 +16,9 @@ public abstract class Property extends Boardspace {
     @Override
     public PlayerActionType performAction (){
         if (owner == null) {
-            buyProperty();
             return PlayerActionType.BUY_PROPERTY;
-        }
-        if (owner != null) {
-            payRent();
-        }
-        return null;
+        } else
+            return PlayerActionType.PAY_RENT;
     }
 
     public void payRent() {

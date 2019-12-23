@@ -23,6 +23,7 @@ public class GameSetup {
     public GameSetup(UserInputReader userInputReader) {
         playerBoardspaceMap = new HashMap<>();
         this.userInputReader = userInputReader;
+        bank = new Bank();
     }
 
     public Game createGame() {
@@ -87,10 +88,6 @@ public class GameSetup {
         return ExpressionValidator.getInstance().isValidIntegerWithBoundaries(numberOfPlayers, MIN_PLAYERS, MAX_PLAYERS);
     }
 
-    private void createBank() {
-        bank = new Bank();
-
-    }
     public Player[] getPlayers() {
         return players;
     }

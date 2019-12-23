@@ -17,7 +17,6 @@ public class RoundOfPlay {
 
     public void play() {
         throwDice();
-        player.move(totalThrow);
     }
 
     private void throwDice() {

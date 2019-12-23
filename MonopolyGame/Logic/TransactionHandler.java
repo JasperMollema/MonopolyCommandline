@@ -16,7 +16,7 @@ public class TransactionHandler {
        switch (getChoice()) {
            case BUY_HOUSES: return PlayerActionType.BUY_HOUSES;
        }
-       return PlayerActionType.INVALID_ACTION;
+       return PlayerActionType.NO_ACTION;
     }
 
     private int getChoice () {

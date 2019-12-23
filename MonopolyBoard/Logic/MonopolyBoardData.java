@@ -85,6 +85,7 @@ public class MonopolyBoardData {
     public static final int SPACENR_LEIDSE_PLEIN = 37;
     public static final int SPACENR_LUXE_BELASTING = 38;
     public static final int SPACENR_KALVERSTRAAT = 39;
+    public static final int MAX_BOARDSPACE_NR = 39;
 
     /**
      * De boardspace types.
@@ -206,10 +207,10 @@ public class MonopolyBoardData {
            new Street(KALVERSTRAAT, SPACENR_KALVERSTRAAT, BoardspaceType.STREET_AMSTERDAM, AMSTERDAM_WAARDE_DUUR, ROTTERDAM_AMSTERDAM_HUISPRIJS, AMSTERDAM_HUUR_DUUR)
         };
 
-    public static Boardspace getBoardspace(int boardspaceNr) {
-        if (boardspaceNr > MONOPOLYBOARD.length -1) {
-            return null;
-        }
-        return MONOPOLYBOARD[boardspaceNr];
+        public static Boardspace getBoardspace(int boardspaceNr) {
+            if (boardspaceNr > MONOPOLYBOARD.length -1) {
+                return null;
+            }
+            return MONOPOLYBOARD[boardspaceNr];
         }
     }

@@ -11,6 +11,6 @@ public class Chance extends CardSpace {
     @Override
     public PlayerActionType performAction() {
         System.out.println(visitor.getName() + " trekt een kanskaart.");
-        return null;
+        return PlayerActionType.NO_ACTION;
     }
 }
