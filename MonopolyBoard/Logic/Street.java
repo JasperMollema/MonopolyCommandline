@@ -44,10 +44,8 @@ public class Street extends Property {
     }
 
     @Override
-    public boolean buyProperty(Player player) {
+    public void buyProperty(Player player) {
         super.buyProperty(player);
-
-        return true;
     }
 
     public int buyHouses(int amount) {

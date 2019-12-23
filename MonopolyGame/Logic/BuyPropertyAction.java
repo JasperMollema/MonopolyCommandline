@@ -19,7 +19,7 @@ public class BuyPropertyAction extends PlayerAction {
         }
 
         // Check if the player can buy the property;
-        if (player.canAffordPayment(property.VALUE)){
+        if (!player.canAffordPayment(property.VALUE)){
             System.out.println("Je hebt niet genoeg geld!");
             return;
         }

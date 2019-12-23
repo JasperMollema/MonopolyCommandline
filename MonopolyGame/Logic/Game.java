@@ -53,7 +53,7 @@ public class Game {
     private void handleBoardTransactions(PlayerActionType playerActionType, Player player) {
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
 
-        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player));
+        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
     }
 
     private void handlePlayerTransactions(Player player) {
@@ -61,7 +61,7 @@ public class Game {
             return;
         }
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(transactionHandler.determinePlayerTransaction());
-        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player));
+        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
     }
 
     private boolean askIfPlayerWantTransactions(Player player) {
