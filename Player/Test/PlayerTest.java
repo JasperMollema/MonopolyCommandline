@@ -37,11 +37,11 @@
 //
 //    @Test
 //    void testHasAllInstances() {
-//       player1.buyProperty(street1, VALUE_STREET_1);
+//       player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //       assertFalse(player1.hasAllInstances(cityProperty,NR_OF_STREETS));
 //
-//       player1.buyProperty(street2, VALUE_STREET_2);
+//       player1.buyPropertyFromBank(street2, VALUE_STREET_2);
 //
 //       assertTrue(player1.hasAllInstances(cityProperty, NR_OF_STREETS));
 //    }
@@ -50,21 +50,21 @@
 //    void testGetNrOfInstances() {
 //       assertEquals(0, player1.getOwnedInstances(cityProperty));
 //
-//       player1.buyProperty(street1, VALUE_STREET_1);
+//       player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //       assertEquals(1, player1.getOwnedInstances(cityProperty));
 //    }
 //
 //    @Test
 //    void testBuyDifferentTypes() {
-//       player1.buyProperty(station1, VALUE_STATION);
-//       player1.buyProperty(street1, VALUE_STREET_1);
+//       player1.buyPropertyFromBank(station1, VALUE_STATION);
+//       player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //       assertEquals(1, player1.getOwnedInstances(cityProperty));
 //       assertEquals(1, player1.getOwnedInstances(stationProperty));
 //
-//       player1.buyProperty(street2, VALUE_STREET_2);
-//       player1.buyProperty(station2, VALUE_STATION);
+//       player1.buyPropertyFromBank(street2, VALUE_STREET_2);
+//       player1.buyPropertyFromBank(station2, VALUE_STATION);
 //
 //       assertTrue(player1.hasAllInstances(cityProperty, NR_OF_STREETS));
 //       assertFalse(player1.hasAllInstances(stationProperty, NR_OF_STATIONS));
@@ -72,24 +72,24 @@
 //
 //    @Test
 //    void testCanBuyHousesHasWholeStreet() {
-//        player1.buyProperty(street1, VALUE_STREET_1);
-//        player1.buyProperty(street2, VALUE_STREET_2);
+//        player1.buyPropertyFromBank(street1, VALUE_STREET_1);
+//        player1.buyPropertyFromBank(street2, VALUE_STREET_2);
 //
 //        assertTrue(player1.canBuyHouses());
 //    }
 //
 //    @Test
 //    void testCanBuyHousesHasAllStations() {
-//        player1.buyProperty(station1, VALUE_STATION);
-//        player1.buyProperty(station2, VALUE_STATION);
-//        player1.buyProperty(station3, VALUE_STATION);
+//        player1.buyPropertyFromBank(station1, VALUE_STATION);
+//        player1.buyPropertyFromBank(station2, VALUE_STATION);
+//        player1.buyPropertyFromBank(station3, VALUE_STATION);
 //
 //        assertFalse(player1.canBuyHouses());
 //    }
 //
 //    @Test
 //    void testCanBuyHousesHasNotWholeStreet() {
-//       player1.buyProperty(street1, VALUE_STREET_1);
+//       player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //       assertFalse(player1.canBuyHouses());
 //    }
@@ -97,7 +97,7 @@
 //    @Test
 //    void testBuyProperty(){
 //        int amountMoney = player1.getAmountOfMoney();
-//        player1.buyProperty(street1, VALUE_STREET_1);
+//        player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //        assertEquals(amountMoney - VALUE_STREET_1, player1.getAmountOfMoney());
 //        assertTrue(player1.getProperties().contains(street1));
@@ -105,23 +105,23 @@
 //
 //    @Test
 //    void testBuyOwnedProperty() {
-//       player1.buyProperty(street1, VALUE_STREET_1);
+//       player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
-//       assertFalse(player2.buyProperty(street1, VALUE_STREET_1));
+//       assertFalse(player2.buyPropertyFromBank(street1, VALUE_STREET_1));
 //    }
 //
 //    @Test
 //    void testBuyMultipleProperty(){
-//        player1.buyProperty(street1, VALUE_STREET_1);
-//        player1.buyProperty(street2, VALUE_STREET_2);
+//        player1.buyPropertyFromBank(street1, VALUE_STREET_1);
+//        player1.buyPropertyFromBank(street2, VALUE_STREET_2);
 //
 //        assertEquals(2, player1.getProperties().size());
 //    }
 //
 //    @Test
 //    void testBuyIdenticalProperty(){
-//        player1.buyProperty(street1, VALUE_STREET_1);
-//        player1.buyProperty(street1, VALUE_STREET_1);
+//        player1.buyPropertyFromBank(street1, VALUE_STREET_1);
+//        player1.buyPropertyFromBank(street1, VALUE_STREET_1);
 //
 //        assertEquals(1, player1.getProperties().size());
 //    }

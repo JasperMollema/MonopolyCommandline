@@ -46,12 +46,8 @@ public abstract class Property extends Boardspace {
 //       return wantToBuyProperty;
 //    }
 
-    public boolean buyProperty(Player player) {
-        if (owner != null) {
-            return false;
-        }
+    public void buyProperty(Player player) {
         owner = player;
-        return true;
     }
 
 
@@ -59,7 +55,7 @@ public abstract class Property extends Boardspace {
 //        if (!wantToBuyProperty()) {
 //            return false;
 //        }
-//        if (!visitor.buyProperty(this, value)) {
+//        if (!visitor.buyPropertyFromBank(this, value)) {
 //            return false;
 //        }
         return true;

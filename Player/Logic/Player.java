@@ -27,15 +27,8 @@ public class Player {
         return dice.nextInt(5) +1;
     }
 
-    public boolean buyProperty(Property property, int price){
-        if (properties.contains(property)){
-            return false;
-        }
-        if (amountOfMoney < price) {
-            return false;
-        }
+    public void buyProperty(Property property){
         properties.add(property);
-        return true;
     }
 
     public void moveToBoardspace(int boardspaceNr) {
@@ -83,7 +76,7 @@ public class Player {
     }
 
     public boolean canAffordPayment(int amtToPay) {
-        return (amountOfMoney - amtToPay) > 0;
+        return amountOfMoney >= amtToPay;
     }
     @Override
     public String toString(){
