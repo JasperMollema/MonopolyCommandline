@@ -63,6 +63,11 @@ public class  Bank {
 
     public List<Street> getOwnedCities(Player player) {
         List<Street> ownedStreets = new ArrayList<>();
+        for (Property property : playerPropertyMap.get(player)) {
+            if (ownesAllTypes(player, property)) {
+                ownedStreets.add((Street)property);
+            }
+        }
         return ownedStreets;
     }
 
@@ -72,6 +77,13 @@ public class  Bank {
             List<Property> propertyList = new ArrayList<>();
             playerPropertyMap.put(player, propertyList);
         }
+    }
+
+    private boolean ownesAllTypes(Player player, Property property) {
+        if (playerOwnsAllTypes.get(player) == null) {
+            return false;
+        }
+        return playerOwnsAllTypes.get(player).get(property.getBoardspaceType());
     }
 
     private void addPropertyToOwnedTypes(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
