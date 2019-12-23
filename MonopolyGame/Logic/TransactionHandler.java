@@ -6,7 +6,6 @@ import jmol.jasper.UserInterface.Logic.UserInputReader;
 public class TransactionHandler {
     private UserInputReader userInputReader;
     private static final int BUY_HOUSES = 1;
-    private static final int SOMETHING_ELSE = 2;
 
     public TransactionHandler (UserInputReader userInputReader) {
         this.userInputReader = userInputReader;

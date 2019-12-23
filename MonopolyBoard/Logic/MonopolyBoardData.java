@@ -90,10 +90,23 @@ public class MonopolyBoardData {
     /**
      * De boardspace types.
      */
-    public enum BoardspaceType {STATION(4), UTILITY(2), STREET_DORP(2),
-        STREET_ARHNEM(3), STREET_HAARLEM(3), STREET_UTRECHT(3),
-        STREET_GRONINGEN(3), STREET_DEN_HAAG(3), STREET_ROTTERDAM(3), STREET_AMSTERDAM(2),
-        START(1), CARD(6), GO_TO_JAIL(1), JAIL(1), FREE_PARKING(1), TAX(2);
+    public enum BoardspaceType {
+        STATION(4),
+        UTILITY(2),
+        STREET_DORP(2),
+        STREET_ARHNEM(3),
+        STREET_HAARLEM(3),
+        STREET_UTRECHT(3),
+        STREET_GRONINGEN(3),
+        STREET_DEN_HAAG(3),
+        STREET_ROTTERDAM(3),
+        STREET_AMSTERDAM(2),
+        START(1),
+        CARD(6),
+        GO_TO_JAIL(1),
+        JAIL(1),
+        FREE_PARKING(1),
+        TAX(2);
 
     private int nrOfTypes;
 

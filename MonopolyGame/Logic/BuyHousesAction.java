@@ -7,5 +7,8 @@ import jmol.jasper.UserInterface.Logic.UserInputReader;
 public class BuyHousesAction extends PlayerAction {
     @Override
     public void handleAction(Bank bank, Player player, Boardspace boardspace, UserInputReader userInputReader) {
+        // Check for which streets the player can buy houses
+        bank.getOwnedCities(player);
+        // Buy the houses
     }
 }

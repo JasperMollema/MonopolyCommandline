@@ -24,7 +24,8 @@ public class  Bank {
     private List<Utility> nutsBedrijven;
     private List<Station> stations;
     private List<Property> bankProperties;
-    private Map <Player, List<Property>> playerPropertyMap;
+    private Map<Player, List<Property>> playerPropertyMap;
+    private Map<Player, Map<MonopolyBoardData.BoardspaceType, Boolean>> playerOwnsAllTypes;
 
     public Bank() {
         nrOfHouses = NR_OF_HOUSES;
@@ -50,18 +51,41 @@ public class  Bank {
         bankProperties.addAll(amsterdam);
         bankProperties.addAll(stations);
         bankProperties.addAll(nutsBedrijven);
+        playerOwnsAllTypes = new HashMap<>();
     }
 
     public void buyPropertyFromBank(Player player, Property property) {
         playerPropertyMap.get(player).add(property);
         bankProperties.remove(property);
+        MonopolyBoardData.BoardspaceType boardspaceType = property.getBoardspaceType();
+        addPropertyToOwnedTypes(player, boardspaceType);
+    }
+
+    public List<Street> getOwnedCities(Player player) {
+        List<Street> ownedStreets = new ArrayList<>();
+        return ownedStreets;
     }
 
     public void fillPlayerlistMap(List<Player> playerList) {
         playerPropertyMap = new HashMap<>();
         for (Player player : playerList) {
-            List <Property> propertyList = new ArrayList<>();
+            List<Property> propertyList = new ArrayList<>();
             playerPropertyMap.put(player, propertyList);
         }
+    }
+
+    private void addPropertyToOwnedTypes(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
+        if (playerOwnsAllTypes.get(player) == null){
+            playerOwnsAllTypes.put(player, new HashMap<>());
+        }
+        int nrOfBoardspaceTypes = boardspaceType.getNrOfTypes();
+        int ownedTypes = 0;
+        for (Property property : playerPropertyMap.get(player)) {
+            if (property.getBoardspaceType().equals(boardspaceType)) {
+                ownedTypes++;
+            }
+        }
+        Boolean ownesAllTypes = nrOfBoardspaceTypes == ownedTypes;
+        playerOwnsAllTypes.get(player).put(boardspaceType, ownesAllTypes);
     }
 }
