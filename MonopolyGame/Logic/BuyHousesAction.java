@@ -34,6 +34,11 @@ public class BuyHousesAction extends PlayerAction {
                 "Je kan minimaal 0 en maximaal " + amtCanBeBought + " huizen kopen."
         );
 
+        if (amount == 0) {
+            System.out.println(player.getName() + " heeft geen huizen gekocht.");
+            return;
+        }
+
         if (street.getNumberOfHouses() == 4 ) {
             buyHotel(player, street, bank, amount);
         }
@@ -53,14 +58,33 @@ public class BuyHousesAction extends PlayerAction {
         }
         if (player.canAffordPayment(street.PRICE_HOUSE * amount)) {
             System.out.println("Je hebt niet genoeg geld!");
+            return;
         }
         bank.buyHotel(amount);
         player.payMoney(street.PRICE_HOUSE * amount);
         street.buyHouses(amount);
+        System.out.println(player.getName() + " heeft een hotel gekocht voor " + street.getName());
     }
 
     private void buyHouse(Player player, Street street, Bank bank, int amount) {
-
+        if (bank.getNrOfHouses() < amount) {
+            System.out.println("De bank heeft niet genoeg huizen!");
+            return;
+        }
+        if (player.canAffordPayment(street.PRICE_HOUSE * amount)) {
+            System.out.println("Je hebt niet genoeg geld!");
+            return;
+        }
+        bank.buyHouses(amount);
+        player.payMoney(street.PRICE_HOUSE * amount);
+        street.buyHouses(amount);
+        if (amount > 1) {
+            System.out.println(player.getName() + " heeft " + amount +
+                    " huizen gekocht voor " + street.getName());
+        }
+        else {
+            System.out.println(player.getName() + " heeft een huis gekocht voor " + street.getName());
+        }
     }
 
     private int calculateHowManyHousesAllowed(Street street) {

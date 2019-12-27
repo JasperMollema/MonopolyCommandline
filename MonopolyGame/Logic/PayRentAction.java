@@ -7,5 +7,6 @@ import jmol.jasper.UserInterface.Logic.UserInputReader;
 public class PayRentAction extends PlayerAction {
     @Override
     public void handleAction(Bank bank, Player player, Boardspace boardspace, UserInputReader userInputReader) {
+
     }
 }
