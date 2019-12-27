@@ -48,8 +48,8 @@ public class Street extends Property {
         super.buyProperty(player);
     }
 
-    public int buyHouses(int amount) {
-        return PRICE_HOUSE;
+    public void buyHouses(int amount) {
+        numberOfHouses += amount;
     }
 
     private int calculateRentNoHouses() {
@@ -62,5 +62,19 @@ public class Street extends Property {
     private boolean cityOwnedBySinglePlayer() {
         owner.hasAllInstances("", 2);
         return true;
+    }
+
+    public void printNumberOfHouses() {
+        if (numberOfHouses == 1) {
+            System.out.println("Op " + name + " staat 1 huis.");
+        }
+        else {
+            System.out.println("Op " + name + " staan " + numberOfHouses + " huizen.");
+        }
+
+    }
+
+    public int getNumberOfHouses() {
+        return numberOfHouses;
     }
 }

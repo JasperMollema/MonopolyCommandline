@@ -3,7 +3,8 @@ package jmol.jasper.UserInterface.Logic;
 public class ExpressionValidator {
     private static ExpressionValidator instance;
 
-    private ExpressionValidator() {}
+    private ExpressionValidator() {
+    }
 
     public static ExpressionValidator getInstance() {
         if (instance == null) {
@@ -18,13 +19,6 @@ public class ExpressionValidator {
 
     public boolean isValidInteger(Integer integer) {
         return integer != null;
-    }
-
-    public boolean isValidIntegerWithBoundaries(Integer integer, int lowerBound, int upperBound) {
-        if (upperBound < lowerBound) {
-            return false;
-        }
-        return integer !=null && integer <= upperBound && integer >= lowerBound;
     }
 
     public boolean isStringWithinLength(String string, int lowerBound, int upperBound) {

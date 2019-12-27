@@ -64,7 +64,6 @@ public class Player {
         }
         if (!canAffordPayment(amount)) {
             amountOfMoney = 0;
-            isGameOver = true;
             return false;
         }
         amountOfMoney -= amount;

@@ -15,7 +15,7 @@ public class BuyPropertyAction extends PlayerAction {
         // Ask if player wants to buy the property:
         if (!ExpressionProvider.getInstance().
                 getBoolean(("Wil je " + property.getName() + " kopen? Het kost " +
-                        property.VALUE + " euro."), userInputReader)){
+                        property.VALUE + " euro."))){
             return;
         }
 

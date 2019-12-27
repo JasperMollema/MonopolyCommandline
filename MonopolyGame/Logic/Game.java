@@ -4,7 +4,7 @@ import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.UserInterface.Logic.ExpressionProvider;
+import jmol.jasper.UserInterface.Logic.KeuzeMenu;
 import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class Game {
     private Map<Player, Boardspace> playerBoardspaceMap;
     private int nrOfRounds;
     private Bank bank;
-    private TransactionHandler transactionHandler;
+    private KeuzeMenu keuzeMenu;
 
     public Game(GameSetup gameSetup){
         players = makeArrayList(gameSetup.getPlayers());
@@ -25,7 +25,7 @@ public class Game {
         userInputReader = gameSetup.getUserInputReader();
         bank = gameSetup.getBank();
         bank.fillPlayerlistMap(players);
-        transactionHandler = new TransactionHandler(userInputReader);
+        keuzeMenu = new KeuzeMenu();
     }
 
     public void startGame(){
@@ -50,24 +50,14 @@ public class Game {
         }
     }
 
-    private void handleBoardTransactions(PlayerActionType playerActionType, Player player) {
+    private void handleBoardActions(PlayerActionType playerActionType, Player player) {
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
-
         playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
     }
 
-    private void handlePlayerTransactions(Player player) {
-        if (!askIfPlayerWantTransactions(player)) {
-            return;
-        }
-        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(transactionHandler.determinePlayerTransaction());
+    private void handlePlayerActions(Player player, PlayerActionType playerActionType) {
+        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
         playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
-    }
-
-    private boolean askIfPlayerWantTransactions(Player player) {
-        return ExpressionProvider.getInstance().
-                getBoolean(("Wil " + player.getName() + " transacties uitvoeren?"), userInputReader);
-
     }
 
     private void handleGameOver(Player player) {
@@ -78,13 +68,18 @@ public class Game {
 
     private void playTurn(Player player) {
         RoundOfPlay roundOfPlay = new RoundOfPlay(player, userInputReader);
+        PlayerActionType playerActionType;
+        System.out.println(player.getName() + " is aan de beurt.");
         do {
+            playerActionType = keuzeMenu.getChoiceBeforeTurn();
+            handlePlayerActions(player, playerActionType);
             roundOfPlay.play();
             putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow());
             performBoardspaceActions(player, roundOfPlay.getTotalThrow());
-            handlePlayerTransactions(player);
         }
         while (roundOfPlay.determineCanThrowAgain());
+        playerActionType = keuzeMenu.getChoiceAfterTurn();
+        handlePlayerActions(player, playerActionType);
     }
 
     private void putPlayerOnNewBoardSpace(Player player, int diceThrow) {
@@ -110,7 +105,7 @@ public class Game {
     private void performBoardspaceActions(Player player, int diceThrow) {
         Boardspace boardspace = playerBoardspaceMap.get(player);
         boardspace.prepareAction(player, diceThrow);
-        handleBoardTransactions(boardspace.performAction(), player);
+        handleBoardActions(boardspace.performAction(), player);
     }
 
     private void printGameStatus(){

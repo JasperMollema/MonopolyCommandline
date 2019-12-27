@@ -3,6 +3,7 @@ package jmol.jasper.MonopolyGame.Logic;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
+import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 import jmol.jasper.UserInterface.Logic.ExpressionValidator;
 import jmol.jasper.UserInterface.Logic.UserInputReader;
 
@@ -56,15 +57,12 @@ public class GameSetup {
     }
 
     private void determineNumberOfPlayers() {
-        System.out.println("Met hoeveel spelers wil je spelen?");
-        numberOfPlayers = userInputReader.getInteger();
-        boolean validNumberOfPlayers = isNumberOfPlayersValid();
-        while (!validNumberOfPlayers) {
-            System.out.println("Er kunnen minimaal " + MIN_PLAYERS + " en maximaal " + MAX_PLAYERS + " spelen.");
-            System.out.println("Voer nog een keer het aantal spelers in.");
-            numberOfPlayers = userInputReader.getInteger();
-            validNumberOfPlayers = isNumberOfPlayersValid();
-        }
+        numberOfPlayers = ExpressionProvider.getInstance().getNumberWithinBoundary(
+                "Met hoeveel spelers wil je spelen?",
+                MIN_PLAYERS,
+                MAX_PLAYERS,
+                "Er kunnen minimaal " + MIN_PLAYERS + " en maximaal " + MAX_PLAYERS + " spelen."
+        );
     }
 
     private String getPlayerName(int playerNo) {
@@ -82,10 +80,6 @@ public class GameSetup {
 
     private boolean validateName(String name) {
         return ExpressionValidator.getInstance().isStringWithinLength(name, MIN_NAME_LENGHT, MAX_NAME_LENGHT);
-    }
-
-    private boolean isNumberOfPlayersValid() {
-        return ExpressionValidator.getInstance().isValidIntegerWithBoundaries(numberOfPlayers, MIN_PLAYERS, MAX_PLAYERS);
     }
 
     public Player[] getPlayers() {
