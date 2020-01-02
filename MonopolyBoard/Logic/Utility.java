@@ -1,5 +1,7 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
+import jmol.jasper.MonopolyGame.Logic.Bank;
+
 public class Utility extends Property {
 
     public Utility(String name, int spaceNr, MonopolyBoardData.BoardspaceType boardspaceType, int value) {
@@ -7,16 +9,12 @@ public class Utility extends Property {
     }
 
     @Override
-    public int calculateRent() {
-//        int rent;
-////        if (owner.hasAllInstances(type, nrOfInstances)) {
-//            rent = diceThrowVisitor * 10;
-//        }
-//        else {
-//            rent = diceThrowVisitor * 4;
-//        }
-//        return rent;
-//    }
-        return 1;
+    public int calculateRent(Bank bank) {
+        if (bank.getOwnesAllTypes(this, owner)) {
+            return diceThrowVisitor * 10;
+        }
+        else {
+            return diceThrowVisitor * 4;
+        }
     }
 }

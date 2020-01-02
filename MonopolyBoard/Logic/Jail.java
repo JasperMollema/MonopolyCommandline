@@ -11,6 +11,6 @@ public class Jail extends Boardspace {
     @Override
     public PlayerActionType performAction() {
         System.out.println("Alleen op bezoek!");
-        return PlayerActionType.NO_ACTION;
+        return PlayerActionType.NO_PLAYER_ACTION;
     }
 }

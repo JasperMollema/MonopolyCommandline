@@ -12,6 +12,6 @@ public class Start extends Boardspace{
     public PlayerActionType performAction() {
         System.out.println(visitor + " staat op start en ontvangt 400 euro!");
         visitor.receiveMoney(400);
-        return PlayerActionType.NO_ACTION;
+        return PlayerActionType.NO_PLAYER_ACTION;
     }
 }

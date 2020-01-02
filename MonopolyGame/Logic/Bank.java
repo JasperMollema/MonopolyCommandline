@@ -24,6 +24,7 @@ public class  Bank {
     private List<Utility> nutsBedrijven;
     private List<Station> stations;
     private List<Property> bankProperties;
+    private Map<Player, List<Station>> playerStationMap;
     private Map<Player, List<Property>> playerPropertyMap;
     private Map<Player, Map<MonopolyBoardData.BoardspaceType, Boolean>> playerOwnsAllTypes;
 
@@ -52,6 +53,7 @@ public class  Bank {
         bankProperties.addAll(stations);
         bankProperties.addAll(nutsBedrijven);
         playerOwnsAllTypes = new HashMap<>();
+        playerStationMap = new HashMap<>();
     }
 
     public void buyPropertyFromBank(Player player, Property property) {
@@ -59,12 +61,15 @@ public class  Bank {
         bankProperties.remove(property);
         MonopolyBoardData.BoardspaceType boardspaceType = property.getBoardspaceType();
         addPropertyToOwnedTypes(player, boardspaceType);
+        if (stations.contains(property)) {
+            buyStation((Station) property, player);
+        }
     }
 
     public List<Street> getOwnedCities(Player player) {
         List<Street> ownedStreets = new ArrayList<>();
         for (Property property : playerPropertyMap.get(player)) {
-            if (ownesAllTypes(player, property)) {
+            if (isStreet(property) && ownesAllTypes(player, property)) {
                 ownedStreets.add((Street) property);
             }
         }
@@ -84,6 +89,19 @@ public class  Bank {
     }
 
     public void buyHotel(int amount) { nrOfHotels -= amount;}
+
+    private boolean isStreet(Property property) {
+        return !(stations.contains(property) || nutsBedrijven.contains(property));
+    }
+
+    private void buyStation(Station station, Player player) {
+        List<Station> ownedStations = playerStationMap.get(player);
+        if (ownedStations == null) {
+            ownedStations = new ArrayList<>();
+        }
+        ownedStations.add(station);
+        playerStationMap.put(player, ownedStations);
+    }
 
     private boolean ownesAllTypes(Player player, Property property) {
         if (playerOwnsAllTypes.get(player) == null) {
@@ -113,5 +131,23 @@ public class  Bank {
 
     public int getNrOfHotels() {
         return nrOfHotels;
+    }
+
+    public boolean getOwnesAllTypes(Property property, Player player) {
+        if ((playerOwnsAllTypes.get(player) == null)) {
+            return false;
+        }
+        Boolean ownesAllTypes = playerOwnsAllTypes.get(player).get(property);
+        if (ownesAllTypes == null) {
+            return false;
+        }
+        return ownesAllTypes;
+    }
+
+    public int getNrOFStationsOwned(Player player) {
+        if (playerStationMap.get(player) == null) {
+            return 0;
+        }
+        else return playerStationMap.get(player).size();
     }
 }

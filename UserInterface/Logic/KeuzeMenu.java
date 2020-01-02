@@ -10,7 +10,7 @@ public class KeuzeMenu {
     public KeuzeMenu() {
         optionsBeforeTurn = new String[] {
                 "Dobbelsteen gooien.",
-                "Huizen kopen"
+                "Huizen kopen",
         };
 
         optionsAfterTurn = new String[] {
@@ -22,7 +22,7 @@ public class KeuzeMenu {
         int choice = ExpressionProvider.getInstance().getOption(optionsBeforeTurn, startMenu);
         switch (choice) {
             case 1: return PlayerActionType.BUY_HOUSES;
-            default: return PlayerActionType.NO_ACTION;
+            default: return PlayerActionType.NO_PLAYER_ACTION;
         }
     }
 
@@ -30,7 +30,7 @@ public class KeuzeMenu {
         int choice = ExpressionProvider.getInstance().getOption(optionsAfterTurn, startMenu);
         switch (choice) {
             case 0: return PlayerActionType.BUY_HOUSES;
-            default: return PlayerActionType.NO_ACTION;
+            default: return PlayerActionType.NO_PLAYER_ACTION;
         }
     }
 }

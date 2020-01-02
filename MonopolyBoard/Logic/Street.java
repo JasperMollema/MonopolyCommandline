@@ -1,5 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
+import jmol.jasper.MonopolyGame.Logic.Bank;
 import jmol.jasper.Player.Logic.Player;
 
 public class Street extends Property {
@@ -24,10 +25,10 @@ public class Street extends Property {
     }
 
     @Override
-    public int calculateRent() {
+    public int calculateRent(Bank bank) {
         int rent = 0;
         switch (numberOfHouses) {
-            case 0: rent = calculateRentNoHouses();
+            case 0: rent = calculateRentNoHouses(bank);
             break;
             case 1: rent = RENT_1_HOUSE;
             break;
@@ -52,16 +53,11 @@ public class Street extends Property {
         numberOfHouses += amount;
     }
 
-    private int calculateRentNoHouses() {
-        if (cityOwnedBySinglePlayer()) {
+    private int calculateRentNoHouses(Bank bank) {
+        if (bank.getOwnesAllTypes(this, owner)) {
             return 2 * RENT_NO_HOUSES;
         }
         return RENT_NO_HOUSES;
-    }
-
-    private boolean cityOwnedBySinglePlayer() {
-        owner.hasAllInstances("", 2);
-        return true;
     }
 
     public void printNumberOfHouses() {

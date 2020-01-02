@@ -11,12 +11,22 @@ import java.util.List;
 
 public class BuyHousesAction extends PlayerAction {
     private final int MAX_AMOUNT_OF_HOUSES = 5;
+    private boolean canBuyHouses = true;
     @Override
     public void handleAction(Bank bank, Player player, Boardspace boardspace, UserInputReader userInputReader) {
+        do {
+            buyHouseOfHotel(bank, player, boardspace);
+        }
+        while (canBuyHouses && ExpressionProvider.getInstance().getBoolean("Wil je nog meer huizen kopen?"));
+
+    }
+
+    private void buyHouseOfHotel(Bank bank, Player player, Boardspace boardspace) {
         // Check for which streets the player can buy houses
         List<Street> possibleBuyOptions = bank.getOwnedCities(player);
         if (possibleBuyOptions.size()== 0) {
             System.out.println("Je hebt geen straten waarvoor je huizen kan kopen!");
+            canBuyHouses = false;
             return;
         }
         Street[] ownedStreets = convertStreetListToArray(possibleBuyOptions);
@@ -43,7 +53,7 @@ public class BuyHousesAction extends PlayerAction {
             buyHotel(player, street, bank, amount);
         }
 
-        if (street.getNumberOfHouses() == 3 && amount == 2) {
+        else if (street.getNumberOfHouses() == 3 && amount == 2) {
             buyHouse(player, street, bank, 1);
             buyHotel(player, street, bank, 1);
         }
@@ -56,7 +66,7 @@ public class BuyHousesAction extends PlayerAction {
             System.out.println("De bank heeft geen hotels meer!");
             return;
         }
-        if (player.canAffordPayment(street.PRICE_HOUSE * amount)) {
+        if ((!player.canAffordPayment(street.PRICE_HOUSE * amount))) {
             System.out.println("Je hebt niet genoeg geld!");
             return;
         }
@@ -71,7 +81,7 @@ public class BuyHousesAction extends PlayerAction {
             System.out.println("De bank heeft niet genoeg huizen!");
             return;
         }
-        if (player.canAffordPayment(street.PRICE_HOUSE * amount)) {
+        if ((!player.canAffordPayment(street.PRICE_HOUSE * amount))) {
             System.out.println("Je hebt niet genoeg geld!");
             return;
         }

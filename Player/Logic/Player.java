@@ -58,16 +58,20 @@ public class Player {
         return true;
     }
 
-    public boolean payMoney(int amount){
+    public int payMoney(int amount){
+        int payedAmount;
         if (amount < 0) {
-            return false;
+            payedAmount = 0;
         }
         if (!canAffordPayment(amount)) {
+            payedAmount = amountOfMoney;
             amountOfMoney = 0;
-            return false;
         }
-        amountOfMoney -= amount;
-        return true;
+        else {
+            payedAmount = amount;
+            amountOfMoney -= amount;
+        }
+        return payedAmount;
     }
 
     public void printAmountOfMoney() {

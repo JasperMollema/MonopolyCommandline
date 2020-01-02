@@ -10,6 +10,6 @@ public class Freeparking extends Boardspace {
 
     @Override
     public PlayerActionType performAction() {
-        return PlayerActionType.NO_ACTION;
+        return PlayerActionType.NO_PLAYER_ACTION;
     }
 }

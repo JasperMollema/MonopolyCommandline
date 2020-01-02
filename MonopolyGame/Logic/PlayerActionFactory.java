@@ -6,7 +6,7 @@ public class PlayerActionFactory {
             case BUY_HOUSES: return new BuyHousesAction();
             case BUY_PROPERTY: return new BuyPropertyAction();
             case PAY_RENT: return new PayRentAction();
-            case NO_ACTION: return new NoAction();
+            case NO_PLAYER_ACTION: return new NoAction();
         }
         throw new UnsupportedOperationException("This action is not allowed");
     }

@@ -4,7 +4,8 @@ public enum PlayerActionType {
     BUY_PROPERTY("grond kopen"),
     BUY_HOUSES("huizen kopen"),
     PAY_RENT("huur betalen"),
-    NO_ACTION("Ongeldige actie");
+    GO_TO_JAIL_ACTION("naar de gevangenis"),
+    NO_PLAYER_ACTION("Geen actie");
 
     /**
      * Message that describes the player action. The entire message that is displayed

@@ -55,9 +55,19 @@ public class Game {
         playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
     }
 
-    private void handlePlayerActions(Player player, PlayerActionType playerActionType) {
-        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
-        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
+    private void handlePlayerActions(Player player, boolean isBeginTurn) {
+        PlayerActionType playerActionType;
+        do {
+            if (isBeginTurn) {
+                playerActionType = keuzeMenu.getChoiceBeforeTurn();
+            }
+            else {
+                playerActionType = keuzeMenu.getChoiceAfterTurn();
+            }
+            PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
+            playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
+        }
+        while (playerActionType != PlayerActionType.NO_PLAYER_ACTION);
     }
 
     private void handleGameOver(Player player) {
@@ -68,18 +78,15 @@ public class Game {
 
     private void playTurn(Player player) {
         RoundOfPlay roundOfPlay = new RoundOfPlay(player, userInputReader);
-        PlayerActionType playerActionType;
         System.out.println(player.getName() + " is aan de beurt.");
         do {
-            playerActionType = keuzeMenu.getChoiceBeforeTurn();
-            handlePlayerActions(player, playerActionType);
+            handlePlayerActions(player, true);
             roundOfPlay.play();
             putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow());
             performBoardspaceActions(player, roundOfPlay.getTotalThrow());
         }
         while (roundOfPlay.determineCanThrowAgain());
-        playerActionType = keuzeMenu.getChoiceAfterTurn();
-        handlePlayerActions(player, playerActionType);
+        handlePlayerActions(player, false);
     }
 
     private void putPlayerOnNewBoardSpace(Player player, int diceThrow) {
