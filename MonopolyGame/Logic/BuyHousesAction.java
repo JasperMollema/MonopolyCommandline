@@ -5,63 +5,84 @@ import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.Street;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
-import jmol.jasper.UserInterface.Logic.UserInputReader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BuyHousesAction extends PlayerAction {
     private final int MAX_AMOUNT_OF_HOUSES = 5;
-    private boolean canBuyHouses = true;
+    private BuySellHouseHelper buySellHouseHelper;
+    private boolean canBuyHouses;
+    private Street[] ownedStreets;
+    private List<Street> streetsWhereCanBuyHouses;
+
+    public BuyHousesAction(Bank bank, Player player, Boardspace boardspace) {
+        super(bank, player, boardspace);
+        buySellHouseHelper = new BuySellHouseHelper();
+        streetsWhereCanBuyHouses = new ArrayList<>();
+        ownedStreets = buySellHouseHelper.convertStreetListToArray(bank.getOwnedCities(player));
+        filterStreets();
+        determineCanBuyHouses();
+    }
+
     @Override
-    public void handleAction(Bank bank, Player player, Boardspace boardspace, UserInputReader userInputReader) {
+    public void handleAction() {
+        if (!canBuyHouses) {
+            System.out.println("Je hebt geen straten waarvoor je huizen kan kopen!");
+            return;
+        }
         do {
-            buyHouseOfHotel(bank, player, boardspace);
+            buyHouseOfHotel();
+            determineCanBuyHouses();
         }
         while (canBuyHouses && ExpressionProvider.getInstance().getBoolean("Wil je nog meer huizen kopen?"));
 
     }
 
-    private void buyHouseOfHotel(Bank bank, Player player, Boardspace boardspace) {
-        // Check for which streets the player can buy houses
-        List<Street> possibleBuyOptions = bank.getOwnedCities(player);
-        if (possibleBuyOptions.size()== 0) {
-            System.out.println("Je hebt geen straten waarvoor je huizen kan kopen!");
-            canBuyHouses = false;
-            return;
-        }
-        Street[] ownedStreets = convertStreetListToArray(possibleBuyOptions);
-
+    private void buyHouseOfHotel() {
         // Ask player for which streets he wants to buy houses.
-        Street street = askWhichStreetToBuyHouse(ownedStreets);
+        Street street = buySellHouseHelper.askWhichStreetPerformAction(
+                buySellHouseHelper.convertStreetListToArray(streetsWhereCanBuyHouses),
+                "Voor welke straat wil je huizen kopen?");
 
         // Calculate how many houses the player can buy (can only be 1 or 2).
         int amtCanBeBought = calculateHowManyHousesAllowed(street);
-
-        int amount =ExpressionProvider.getInstance().getNumberWithinBoundary(
-                "Hoeveel huizen wil je kopen?",
-                0,
-                amtCanBeBought,
-                "Je kan minimaal 0 en maximaal " + amtCanBeBought + " huizen kopen."
-        );
-
-        if (amount == 0) {
-            System.out.println(player.getName() + " heeft geen huizen gekocht.");
+        int amountToBeBought = getHowManyToBeBought(street, amtCanBeBought);
+        if (amountToBeBought == 0) {
             return;
         }
 
         if (street.getNumberOfHouses() == 4 ) {
-            buyHotel(player, street, bank, amount);
+            buyHotel(street, amountToBeBought);
         }
 
-        else if (street.getNumberOfHouses() == 3 && amount == 2) {
-            buyHouse(player, street, bank, 1);
-            buyHotel(player, street, bank, 1);
+        else if (street.getNumberOfHouses() == 3 && amountToBeBought == 2) {
+            buyHouse(street,1);
+            buyHotel(street, 1);
         }
 
-        else buyHouse(player, street, bank, amount);
+        else buyHouse(street, amountToBeBought);
     }
 
-    private void buyHotel(Player player, Street street, Bank bank, int amount) {
+    private int getHowManyToBeBought(Street street, int amountCanBeBought) {
+        if (amountCanBeBought == 0) {
+            System.out.println("Je kan geen huizen kopen voor " + street.getName());
+            return 0;
+        }
+
+        if (amountCanBeBought == 1) {
+            System.out.println("Je kan 1 huis kopen voor " + street.getName());
+            return 1;
+        }
+
+        // There can be 2 houses bought.
+        int choice = ExpressionProvider.getInstance().getOption(
+                new String[]{"1 huis", "2 huizen"},
+                "Wil je 1 of 2 huizen kopen voor " + street.getName());
+        return choice + 1;
+    }
+
+    private void buyHotel(Street street, int amount) {
         if (bank.getNrOfHotels() < amount) {
             System.out.println("De bank heeft geen hotels meer!");
             return;
@@ -70,13 +91,17 @@ public class BuyHousesAction extends PlayerAction {
             System.out.println("Je hebt niet genoeg geld!");
             return;
         }
+
+        if (verifyBuy(street, amount, true))
+
         bank.buyHotel(amount);
         player.payMoney(street.PRICE_HOUSE * amount);
         street.buyHouses(amount);
-        System.out.println(player.getName() + " heeft een hotel gekocht voor " + street.getName());
+        confirmBuy(street, amount, true);
+        filterStreets();
     }
 
-    private void buyHouse(Player player, Street street, Bank bank, int amount) {
+    private void buyHouse(Street street, int amount) {
         if (bank.getNrOfHouses() < amount) {
             System.out.println("De bank heeft niet genoeg huizen!");
             return;
@@ -85,10 +110,23 @@ public class BuyHousesAction extends PlayerAction {
             System.out.println("Je hebt niet genoeg geld!");
             return;
         }
+
+        if (!verifyBuy(street, amount, false)) {
+            return;
+        }
+
         bank.buyHouses(amount);
         player.payMoney(street.PRICE_HOUSE * amount);
         street.buyHouses(amount);
-        if (amount > 1) {
+        confirmBuy(street, amount, false);
+        filterStreets();
+    }
+
+    private void confirmBuy(Street street, int amount, boolean isHotel) {
+        if (isHotel) {
+            System.out.println(player.getName() + " heeft een hotel gekocht voor " + street.getName());
+        }
+        else if (amount > 1) {
             System.out.println(player.getName() + " heeft " + amount +
                     " huizen gekocht voor " + street.getName());
         }
@@ -97,11 +135,25 @@ public class BuyHousesAction extends PlayerAction {
         }
     }
 
+    private boolean verifyBuy(Street street, int amount, boolean isHotel) {
+        String question;
+        if (isHotel) {
+            question =question = "Weet je zeker dat je een hotel wil kopen voor " + street.getName();
+        }
+        else if (amount == 2) {
+            question = "Weet je zeker dat je " + amount + " huizen wil kopen voor " + street.getName();
+        }
+        else {
+            question = "Weet je zeker dat je " + amount + " huis wil kopen voor " + street.getName();
+        }
+        return ExpressionProvider.getInstance().getBoolean(question);
+    }
+
     private int calculateHowManyHousesAllowed(Street street) {
         List<Street> city = new Board<Street>().getBoardspaceList(street.getBoardspaceType());
         int currentAmtHouses = street.getNumberOfHouses();
-        int minHouseInCity = getMinAmtOfHousInCity(city);
-        boolean onlyOneMin = onlyStreetWithAmtHouses(city, minHouseInCity);
+        int minHouseInCity = buySellHouseHelper.getMinAmtOfHousesInCity(city);
+        boolean onlyOneMin = buySellHouseHelper.onlyStreetWithAmtHouses(city, minHouseInCity);
         int amount = 1;
 
         if (currentAmtHouses == minHouseInCity && onlyOneMin) {
@@ -118,43 +170,19 @@ public class BuyHousesAction extends PlayerAction {
         return amount;
     }
 
-    private boolean onlyStreetWithAmtHouses(List<Street> streets, int amountHouses) {
-        int sum = 0;
-        for (Street street: streets) {
-            if (street.getNumberOfHouses() == amountHouses) {
-                sum += 1;
+    private void filterStreets() {
+        streetsWhereCanBuyHouses.clear();
+        for (Street street : ownedStreets) {
+            if (calculateHowManyHousesAllowed(street) > 0) {
+                streetsWhereCanBuyHouses.add(street);
+            }
+            else {
+                streetsWhereCanBuyHouses.remove(street);
             }
         }
-        return sum == 1;
     }
 
-    private int getMinAmtOfHousInCity(List<Street> streets) {
-        int minAmountOfHouses = streets.get(0).getNumberOfHouses();
-        for (Street street: streets) {
-            if (street.getNumberOfHouses() < minAmountOfHouses) {
-                minAmountOfHouses = street.getNumberOfHouses();
-            }
-        }
-        return minAmountOfHouses;
-    }
-
-    private Street[] convertStreetListToArray(List<Street> streetList) {
-        Street[] ownedStreets = new Street[streetList.size()];
-        int i = 0;
-        for (Street street : streetList) {
-            ownedStreets[i] = street;
-            i++;
-        }
-        return ownedStreets;
-    }
-
-    private Street askWhichStreetToBuyHouse(Street[] streets) {
-        String[] streetOptions = new String[streets.length];
-        for (int i = 0; i<streets.length; i++) {
-            streets[i].printNumberOfHouses();
-            streetOptions[i] = streets[i].getName();
-        }
-        int choice = ExpressionProvider.getInstance().getOption(streetOptions, "Voor welke straat wil je huizen kopen?");
-        return streets[choice];
+    private void determineCanBuyHouses() {
+        canBuyHouses = streetsWhereCanBuyHouses.size() > 0;
     }
 }

@@ -53,6 +53,15 @@ public class Street extends Property {
         numberOfHouses += amount;
     }
 
+    public void sellAllHouses() {
+        sellHouses(numberOfHouses);
+    }
+
+    public void sellHouses(int amount) {
+        numberOfHouses -= amount;
+        owner.receiveMoney(amount * PRICE_HOUSE / 2);
+    }
+
     private int calculateRentNoHouses(Bank bank) {
         if (bank.getOwnesAllTypes(this, owner)) {
             return 2 * RENT_NO_HOUSES;
@@ -72,5 +81,10 @@ public class Street extends Property {
 
     public int getNumberOfHouses() {
         return numberOfHouses;
+    }
+
+    @Override
+    public String toString() {
+        return name + ", met " + numberOfHouses + " huizen.";
     }
 }

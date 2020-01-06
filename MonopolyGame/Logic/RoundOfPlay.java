@@ -1,22 +1,35 @@
 package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 public class RoundOfPlay {
-    private UserInputReader userInputReader;
     private Player player;
     private int totalThrow;
     private boolean isDoubleTrow;
     private int nrOfThrows;
 
-    public RoundOfPlay(Player player, UserInputReader userInputReader) {
+    public RoundOfPlay(Player player) {
         this.player = player;
-        this.userInputReader = userInputReader;
     }
 
     public void play() {
         throwDice();
+    }
+
+    public boolean shouldBePrisoned() {
+        boolean shouldBeJailed = nrOfThrows == 3 && isDoubleTrow;
+        if (shouldBeJailed) {
+            System.out.println(player + " heeft drie keer dubbel gegooid en moet naar de gevangenis!");
+        }
+        return shouldBeJailed;
+    }
+
+    public boolean canThrowAgain() {
+        return isDoubleTrow && !shouldBePrisoned();
+    }
+
+    public boolean canBeReleasedFromPrison() {
+        return isDoubleTrow;
     }
 
     private void throwDice() {
@@ -26,14 +39,6 @@ public class RoundOfPlay {
         totalThrow = firstThrow + secondThrow;
         nrOfThrows ++;
         System.out.println(player + " heeft " + firstThrow + " en " + secondThrow + " gegooid!");
-    }
-
-    public boolean determineCanThrowAgain() {
-        boolean canThrowAgain = isDoubleTrow && nrOfThrows > 0 && nrOfThrows < 3;
-        if (canThrowAgain) {
-            System.out.println(player + " mag nog een keer gooien!");
-        }
-        return canThrowAgain;
     }
 
     public int getTotalThrow() {

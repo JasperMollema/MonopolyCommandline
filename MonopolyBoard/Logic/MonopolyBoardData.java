@@ -91,30 +91,43 @@ public class MonopolyBoardData {
      * De boardspace types.
      */
     public enum BoardspaceType {
-        STATION(4),
-        UTILITY(2),
-        STREET_DORP(2),
-        STREET_ARHNEM(3),
-        STREET_HAARLEM(3),
-        STREET_UTRECHT(3),
-        STREET_GRONINGEN(3),
-        STREET_DEN_HAAG(3),
-        STREET_ROTTERDAM(3),
-        STREET_AMSTERDAM(2),
-        START(1),
-        CARD(6),
-        GO_TO_JAIL(1),
-        JAIL(1),
-        FREE_PARKING(1),
-        TAX(2);
+        STATION(4, "Station", false),
+        UTILITY(2, "NutsBedrijf", false),
+        STREET_DORP(2, "Dorp", true),
+        STREET_ARHNEM(3, "Arhnem", true),
+        STREET_HAARLEM(3, "Haarlem", true),
+        STREET_UTRECHT(3, "Utrecht", true),
+        STREET_GRONINGEN(3, "Groningen", true),
+        STREET_DEN_HAAG(3, "Den Haag", true),
+        STREET_ROTTERDAM(3, "Rotterdam", true),
+        STREET_AMSTERDAM(2, "Amsterdam", true),
+        START(1, "Start", false),
+        CARD(6, "KaartVak", false),
+        GO_TO_JAIL(1, "Ga naar de gevangenis", false),
+        JAIL(1, "Gevangenis", false),
+        FREE_PARKING(1, "Vrij parkeren", false),
+        TAX(2, "Belasting", false);
 
-    private int nrOfTypes;
+        private int nrOfTypes;
+        private String name;
+        private boolean isCity;
 
-    private BoardspaceType(int nrOfTypes) {
-        this.nrOfTypes = nrOfTypes;
-    }
+        private BoardspaceType(int nrOfTypes, String name, boolean isCity) {
+            this.nrOfTypes = nrOfTypes;
+            this.name = name;
+            this.isCity = isCity;
+        }
+
         public int getNrOfTypes() {
             return nrOfTypes;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public boolean getIsCity() {
+            return isCity;
         }
     }
 

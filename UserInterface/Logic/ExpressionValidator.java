@@ -21,7 +21,29 @@ public class ExpressionValidator {
         return integer != null;
     }
 
-    public boolean isStringWithinLength(String string, int lowerBound, int upperBound) {
-        return string != null && string.length() >= lowerBound && string.length() <= upperBound;
+    public boolean isValidString(String string) {
+        return string != null;
+    }
+
+    public boolean isValidStringWithBoundaries(String string, Integer lowerBound, Integer upperBound) {
+        if (!isValidString(string)) {
+            return false;
+        }
+
+        int stringLength = string.length();
+
+        if (lowerBound == null && upperBound == null) {
+            return true;
+        }
+
+        if (lowerBound == null) {
+            return stringLength <= upperBound;
+        }
+
+        if (upperBound == null) {
+            return stringLength >= lowerBound;
+        }
+
+        return stringLength <= upperBound && stringLength >= lowerBound;
     }
 }

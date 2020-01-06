@@ -1,11 +1,10 @@
 package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
+import jmol.jasper.MonopolyBoard.Logic.Jail;
 import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
-import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.KeuzeMenu;
-import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,19 +12,19 @@ import java.util.Map;
 
 public class Game {
     private List<Player> players;
-    private UserInputReader userInputReader;
     private Map<Player, Boardspace> playerBoardspaceMap;
     private int nrOfRounds;
     private Bank bank;
     private KeuzeMenu keuzeMenu;
+    private Jail jail;
 
     public Game(GameSetup gameSetup){
         players = makeArrayList(gameSetup.getPlayers());
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
-        userInputReader = gameSetup.getUserInputReader();
         bank = gameSetup.getBank();
         bank.fillPlayerlistMap(players);
         keuzeMenu = new KeuzeMenu();
+        jail = (Jail) MonopolyBoardData.getBoardspace(MonopolyBoardData.SPACENR_GEVANGENIS);
     }
 
     public void startGame(){
@@ -43,6 +42,7 @@ public class Game {
 
     private void playTurn() {
         for (Player player : players) {
+            System.out.println(player + " is aan de beurt en staat op " + playerBoardspaceMap.get(player).getName());
             playTurn(player);
             if (player.isGameOver()) {
                 handleGameOver(player);
@@ -51,8 +51,16 @@ public class Game {
     }
 
     private void handleBoardActions(PlayerActionType playerActionType, Player player) {
-        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
-        playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
+        if (playerActionType == PlayerActionType.NO_PLAYER_ACTION) {
+            return;
+        }
+        PlayerAction playerAction = PlayerActionFactory.getPlayerAction(
+                playerActionType,
+                bank,
+                player,
+                playerBoardspaceMap.get(player)
+                );
+        playerAction.handleAction();
     }
 
     private void handlePlayerActions(Player player, boolean isBeginTurn) {
@@ -64,8 +72,12 @@ public class Game {
             else {
                 playerActionType = keuzeMenu.getChoiceAfterTurn();
             }
-            PlayerAction playerAction = PlayerActionFactory.getPlayerAction(playerActionType);
-            playerAction.handleAction(bank, player, playerBoardspaceMap.get(player), userInputReader);
+            PlayerAction playerAction = PlayerActionFactory.getPlayerAction(
+                    playerActionType,
+                    bank,
+                    player,
+                    playerBoardspaceMap.get(player));
+            playerAction.handleAction();
         }
         while (playerActionType != PlayerActionType.NO_PLAYER_ACTION);
     }
@@ -76,24 +88,71 @@ public class Game {
         System.out.println(player + " is failliet en doet niet meer mee!");
     }
 
-    private void playTurn(Player player) {
-        RoundOfPlay roundOfPlay = new RoundOfPlay(player, userInputReader);
-        System.out.println(player.getName() + " is aan de beurt.");
-        do {
-            handlePlayerActions(player, true);
-            roundOfPlay.play();
-            putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow());
+    private void playTurnWhileInPrison(Player player) {
+        RoundOfPlay roundOfPlay = new RoundOfPlay(player);
+        handlePlayerActions(player, true);
+        roundOfPlay.play();
+        if (roundOfPlay.canBeReleasedFromPrison()) {
+            jail.releasePlayer(player);
+            putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow(), true);
             performBoardspaceActions(player, roundOfPlay.getTotalThrow());
         }
-        while (roundOfPlay.determineCanThrowAgain());
+        else {
+            jail.addRound(player);
+        }
+
         handlePlayerActions(player, false);
     }
 
-    private void putPlayerOnNewBoardSpace(Player player, int diceThrow) {
+    private void playTurn(Player player) {
+        if (checkForJail(player)) {
+            playTurnWhileInPrison(player);
+            return;
+        }
+        RoundOfPlay roundOfPlay = new RoundOfPlay(player);
+        do {
+            performTurnActions(player, roundOfPlay);
+        }
+        while (roundOfPlay.canThrowAgain() && !jail.isPlayerImprisoned(player));
+        handlePlayerActions(player, false);
+    }
+
+    private void performTurnActions(Player player, RoundOfPlay roundOfPlay) {
+        handlePlayerActions(player, true);
+        roundOfPlay.play();
+        if (roundOfPlay.shouldBePrisoned()) {
+            putPlayerInJail(player);
+        }
+        else {
+            putPlayerOnNewBoardSpace(player, roundOfPlay.getTotalThrow(), false);
+            performBoardspaceActions(player, roundOfPlay.getTotalThrow());
+        }
+    }
+
+    private void putPlayerInJail(Player player) {
+        jail.imprisonPlayer(player);
+        player.moveToBoardspace(MonopolyBoardData.SPACENR_GEVANGENIS);
+        playerBoardspaceMap.put(player, MonopolyBoardData.getBoardspace(MonopolyBoardData.SPACENR_GEVANGENIS));
+    }
+
+    private boolean checkForJail(Player player) {
+        if (!jail.isPlayerImprisoned(player)) {
+            return false;
+        }
+
+        if (jail.hasServedSentence(player)) {
+            return false;
+        }
+        return true;
+    }
+
+    private void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
         int previousBoardSpaceNr = playerBoardspaceMap.get(player).getSpaceNr();
         int newBoardSpaceNr = determineNewBoardspaceNr(previousBoardSpaceNr, diceThrow);
 
-        if (newBoardSpaceNr != 0 && newBoardSpaceNr<previousBoardSpaceNr) {
+        if (newBoardSpaceNr != 0 &&
+                !releasedFromJail &&
+                newBoardSpaceNr < previousBoardSpaceNr) {
             System.out.println(player + " is voorbij start gekomen en ontvangt 200 euro!");
             player.receiveMoney(200);
         }
@@ -117,30 +176,9 @@ public class Game {
 
     private void printGameStatus(){
         for (Player player : players){
-            System.out.println(showPlayerStatus(player));
+            PlayerActionFactory.getPlayerAction(PlayerActionType.PRINT_STATUS, bank, player, null);
         }
         System.out.println("Er zijn " + nrOfRounds + " ronden gespeeld.");
-    }
-
-    private String showPlayerStatus(Player player) {
-        StringBuilder playerStatus = new StringBuilder(player.getName());
-        playerStatus.append(" staat op ");
-        playerStatus.append(MonopolyBoardData.getBoardspace(player.getBoardspaceNr()).getName());
-        playerStatus.append(" en heeft ");
-        playerStatus.append(player.getAmountOfMoney() + " euro.");
-        playerStatus.append(System.lineSeparator());
-        if (player.getProperties().isEmpty()) {
-            playerStatus.append(player.getName() + " heeft geen nog geen bezittingen.");
-        }
-        else {
-            playerStatus.append(player + " heeft de volgende bezittingen:");
-            for (Property property : player.getProperties()){
-                playerStatus.append(System.lineSeparator());
-                playerStatus.append(property.getName() + ".");
-            }
-        }
-        playerStatus.append(System.lineSeparator());
-        return playerStatus.toString();
     }
 
     private List<Player> makeArrayList(Player[] playerArray) {

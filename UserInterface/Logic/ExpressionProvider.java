@@ -17,6 +17,34 @@ public class ExpressionProvider {
         return instance;
     }
 
+    /**
+     * Gets a String from the user. A specific length can be specified. When both upper and
+     * lowerbound are null, any String is returned.
+     * @param question Question to be asked.
+     * @param lowerBound Minimum length of the requested String.
+     * @param upperBound Maximum length of the requested String.
+     * @param errorMessage Message displayed when the user does not enter a String within the given boundaries.
+     *                     When null, the default error message is displayed
+     * @return
+     */
+    public String getString(String question, Integer lowerBound, Integer upperBound, String errorMessage) {
+        System.out.println(question);
+        String answer = userInputReader.getString();
+        boolean isValidString = ExpressionValidator.getInstance().isValidStringWithBoundaries(answer, lowerBound, upperBound);
+        while (!isValidString) {
+            if (errorMessage == null) {
+                System.out.println(defaultErrorMessage);
+            }
+            else {
+                System.out.println(errorMessage);
+            }
+            System.out.println(question);
+            answer = userInputReader.getString();
+            isValidString = ExpressionValidator.getInstance().isValidStringWithBoundaries(answer, lowerBound, upperBound);
+        }
+        return answer;
+    }
+
     public Integer getNumberWithinBoundary(String question, int lowerBound, int upperBound, String errorMessage) {
         System.out.println(question);
         Integer number = userInputReader.getIntegerWithBoundary(lowerBound, upperBound);
@@ -31,7 +59,7 @@ public class ExpressionProvider {
     }
 
     /**
-     * Gets a number from tbe user.
+     * Gets a number from the user.
      * @param question The question.
      * @return the number chosen.
      */

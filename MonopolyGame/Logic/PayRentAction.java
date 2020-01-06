@@ -3,12 +3,15 @@ package jmol.jasper.MonopolyGame.Logic;
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
-import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 
 public class PayRentAction extends PlayerAction {
+    public PayRentAction(Bank bank, Player player, Boardspace boardspace) {
+        super(bank, player, boardspace);
+    }
+
     @Override
-    public void handleAction(Bank bank, Player player, Boardspace boardspace, UserInputReader userInputReader) {
+    public void handleAction() {
         Property property = (Property) boardspace;
         Player owner = property.getOwner();
         if (player.equals(owner)) {

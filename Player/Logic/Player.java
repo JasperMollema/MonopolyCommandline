@@ -12,6 +12,7 @@ public class Player {
     private List<Property> properties;
     private Map<String, Integer> propertyMap;
     private boolean isGameOver;
+    private int nrGetOutOfJailCards;
 
     public Player(String name){
         this.name = name;
@@ -24,7 +25,8 @@ public class Player {
 
 
     public int throwDice() {
-        return dice.nextInt(5) +1;
+        int am = dice.nextInt(5) +1;
+        return am;
     }
 
     public void buyProperty(Property property){
@@ -33,21 +35,6 @@ public class Player {
 
     public void moveToBoardspace(int boardspaceNr) {
         this.boardspaceNr = boardspaceNr;
-    }
-
-    public boolean hasAllInstances(String type, int nrOfInstances) {
-        Integer instancesOwned = propertyMap.get(type);
-        if (instancesOwned == null) {
-            return false;
-        }
-        return instancesOwned == nrOfInstances;
-    }
-
-    public int getOwnedInstances(String type) {
-        if (!(propertyMap.containsKey(type))) {
-            return 0;
-        }
-        return propertyMap.get(type);
     }
 
     public boolean receiveMoney(int amount) {
@@ -61,7 +48,7 @@ public class Player {
     public int payMoney(int amount){
         int payedAmount;
         if (amount < 0) {
-            payedAmount = 0;
+            return 0;
         }
         if (!canAffordPayment(amount)) {
             payedAmount = amountOfMoney;
@@ -81,6 +68,7 @@ public class Player {
     public boolean canAffordPayment(int amtToPay) {
         return amountOfMoney >= amtToPay;
     }
+
     @Override
     public String toString(){
         return name;
@@ -104,6 +92,14 @@ public class Player {
 
     public boolean isGameOver() {
         return isGameOver;
+    }
+
+    public void playGetOutOfJailCard() {
+        nrGetOutOfJailCards -= 1;
+    }
+
+    public boolean hasGetOutOfJailCard() {
+        return nrGetOutOfJailCards > 0;
     }
 }
 

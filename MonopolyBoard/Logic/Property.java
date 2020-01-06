@@ -31,4 +31,9 @@ public abstract class Property extends Boardspace {
     public Player getOwner() {
         return owner;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

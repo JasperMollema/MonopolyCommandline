@@ -66,6 +66,11 @@ public class  Bank {
         }
     }
 
+    /**
+     * Gets all streets of which the player ownes the whole city.
+     * @param player
+     * @return List with all te streets owned by the player.
+     */
     public List<Street> getOwnedCities(Player player) {
         List<Street> ownedStreets = new ArrayList<>();
         for (Property property : playerPropertyMap.get(player)) {
@@ -74,6 +79,39 @@ public class  Bank {
             }
         }
         return ownedStreets;
+    }
+
+    /**
+     * Gets all the owned streets of a particular owned BoardspaceTypeCity.
+     * @param player
+     * @param boardspaceType
+     * @return
+     */
+    public List<Street> getOwnedCities(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
+        List<Street> streets = new ArrayList<>();
+        if (playerPropertyMap.get(player) == null || !boardspaceType.getIsCity()) {
+            return null;
+        }
+        for (Property property : playerPropertyMap.get(player)) {
+            if (property.getBoardspaceType().equals(boardspaceType)) {
+                streets.add((Street)property);
+            }
+        }
+        return streets;
+    }
+
+    public List<MonopolyBoardData.BoardspaceType> getOwnedCitiesBoardSpaceTypes (Player player) {
+        List<MonopolyBoardData.BoardspaceType> boardspaceTypeList = new ArrayList<>();
+        if (playerOwnsAllTypes.get(player) == null) {
+            return null;
+        }
+        Map<MonopolyBoardData.BoardspaceType, Boolean> ownedBoardSpaceTypes = playerOwnsAllTypes.get(player);
+        for (MonopolyBoardData.BoardspaceType boardspaceType : ownedBoardSpaceTypes.keySet()) {
+            if (playerOwnsAllTypes.get(player).get(boardspaceType) && boardspaceType.getIsCity()) {
+                boardspaceTypeList.add(boardspaceType);
+            }
+        }
+        return boardspaceTypeList;
     }
 
     public void fillPlayerlistMap(List<Player> playerList) {
@@ -89,6 +127,14 @@ public class  Bank {
     }
 
     public void buyHotel(int amount) { nrOfHotels -= amount;}
+
+    public void sellHouses(int amount) {
+        nrOfHouses += amount;
+    }
+
+    public void sellHotel() {
+        nrOfHotels--;
+    }
 
     private boolean isStreet(Property property) {
         return !(stations.contains(property) || nutsBedrijven.contains(property));

@@ -4,8 +4,6 @@ import jmol.jasper.MonopolyBoard.Logic.Boardspace;
 import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
-import jmol.jasper.UserInterface.Logic.ExpressionValidator;
-import jmol.jasper.UserInterface.Logic.UserInputReader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +11,6 @@ import java.util.Map;
 public class GameSetup {
     private Player[] players;
     private Bank bank;
-    private UserInputReader userInputReader;
     private Integer numberOfPlayers;
     private Map<Player, Boardspace> playerBoardspaceMap;
     private final int MAX_PLAYERS = 6;
@@ -21,9 +18,8 @@ public class GameSetup {
     private final int MIN_NAME_LENGHT = 1;
     private final int MAX_NAME_LENGHT = 12;
 
-    public GameSetup(UserInputReader userInputReader) {
+    public GameSetup() {
         playerBoardspaceMap = new HashMap<>();
-        this.userInputReader = userInputReader;
         bank = new Bank();
     }
 
@@ -66,28 +62,16 @@ public class GameSetup {
     }
 
     private String getPlayerName(int playerNo) {
-        System.out.println("Wat is de naam van speler " + playerNo + "?");
-        String name = userInputReader.getString();
-        boolean isValidName = validateName(name);
-        while (!isValidName) {
-            System.out.println("Een naam mag niet leeg zijn of langer dan 12 tekens");
-            System.out.println("Voer nog een keer je naam in.");
-            name = userInputReader.getString();
-            isValidName = validateName(name);
-        }
-        return name;
-    }
-
-    private boolean validateName(String name) {
-        return ExpressionValidator.getInstance().isStringWithinLength(name, MIN_NAME_LENGHT, MAX_NAME_LENGHT);
+        return ExpressionProvider.getInstance().getString(
+                "Wat is de naam van speler " + playerNo + "?",
+                MIN_NAME_LENGHT,
+                MAX_NAME_LENGHT,
+                "Een naam mag niet leeg zijn of langer dan 12 tekens"
+        );
     }
 
     public Player[] getPlayers() {
         return players;
-    }
-
-    public UserInputReader getUserInputReader() {
-        return userInputReader;
     }
 
     public Map<Player, Boardspace> getPlayerBoardspaceMap() {
