@@ -8,7 +8,10 @@ public enum PlayerActionType {
     GO_TO_JAIL_ACTION("naar de gevangenis"),
     NO_PLAYER_ACTION("Geen actie"),
     PRINT_STATUS("Print status"),
-    CARD_ACTION("Kaart actie");
+    GO_TO_BOARDSPACE_CARD_ACTION("Kaart actie"),
+    PAY_CARD_ACTION(""),
+    PAY_FOR_HOUSES_CARD_ACTION(""),
+    PAY_OR_DRAW_CHANCH_CARD_ACTION("");
 
     /**
      * Message that describes the player action. The entire message that is displayed

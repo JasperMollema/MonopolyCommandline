@@ -1,12 +1,49 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-import jmol.jasper.MonopolyGame.Action.PlayerActionType;
+
+import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class Card {
     private String message;
     private PlayerActionType playerActionType;
-    private int amtToPayReceive;
-    private CardActionType cardActionType;
+    private int amtToPayOrRecieve;
+    private int spacesToMove;
+    private boolean payRecFromOthers;
+    private boolean isGetOutOfJailCard;
+
+    public Card(String message, PlayerActionType playerActionType, int amtToPayOrRecieve,
+                int spacesToMove, boolean payRecFromOthers, boolean isGetOutOfJailCard) {
+        this.message = message;
+        this.playerActionType = playerActionType;
+        this.amtToPayOrRecieve = amtToPayOrRecieve;
+        this.spacesToMove = spacesToMove;
+        this.payRecFromOthers = payRecFromOthers;
+        this.isGetOutOfJailCard = isGetOutOfJailCard;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public PlayerActionType getPlayerActionType() {
+        return playerActionType;
+    }
+
+    public int getAmtToPayOrRecieve() {
+        return amtToPayOrRecieve;
+    }
+
+    public int getSpacesToMove() {
+        return spacesToMove;
+    }
+
+    public boolean isPayRecFromOthers() {
+        return payRecFromOthers;
+    }
+
+    public boolean isGetOutOfJailCard() {
+        return isGetOutOfJailCard;
+    }
 }
 
 enum CardActionType {

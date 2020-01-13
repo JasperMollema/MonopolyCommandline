@@ -1,6 +1,6 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-import jmol.jasper.MonopolyGame.Action.PlayerActionType;
+import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 import jmol.jasper.Player.Logic.Player;
 
 public class Boardspace {

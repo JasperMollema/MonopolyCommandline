@@ -1,6 +1,7 @@
 package jmol.jasper.MonopolyBoard.Logic;
 
-import jmol.jasper.MonopolyGame.Action.PlayerActionType;
+
+import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
 
 public class Freeparking extends Boardspace {
 
