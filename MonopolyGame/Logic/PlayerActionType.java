@@ -7,7 +7,8 @@ public enum PlayerActionType {
     PAY_RENT("huur betalen"),
     GO_TO_JAIL_ACTION("naar de gevangenis"),
     NO_PLAYER_ACTION("Geen actie"),
-    PRINT_STATUS("Print status");
+    PRINT_STATUS("Print status"),
+    CARD_ACTION("Kaart actie");
 
     /**
      * Message that describes the player action. The entire message that is displayed

@@ -1,6 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
+import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
 
@@ -12,7 +13,7 @@ public class PayRentAction extends PlayerAction {
 
     @Override
     public void handleAction() {
-        Property property = (Property) boardspace;
+        Property property = (Property) MonopolyBoardData.getBoardspace(player.getBoardspaceNr());
         Player owner = property.getOwner();
         if (player.equals(owner)) {
             System.out.println(player.getName() + " is eigendom van " + property.getName());

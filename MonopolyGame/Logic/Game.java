@@ -58,7 +58,7 @@ public class Game {
                 playerActionType,
                 bank,
                 player,
-                playerBoardspaceMap.get(player)
+                null
                 );
         playerAction.handleAction();
     }
@@ -147,7 +147,7 @@ public class Game {
     }
 
     private void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
-        int previousBoardSpaceNr = playerBoardspaceMap.get(player).getSpaceNr();
+        int previousBoardSpaceNr = player.getBoardspaceNr();
         int newBoardSpaceNr = determineNewBoardspaceNr(previousBoardSpaceNr, diceThrow);
 
         if (newBoardSpaceNr != 0 &&

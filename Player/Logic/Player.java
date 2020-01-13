@@ -1,5 +1,6 @@
 package jmol.jasper.Player.Logic;
 
+import jmol.jasper.MonopolyBoard.Logic.Card;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 
 import java.util.*;
@@ -13,6 +14,7 @@ public class Player {
     private Map<String, Integer> propertyMap;
     private boolean isGameOver;
     private int nrGetOutOfJailCards;
+    private Card card;
 
     public Player(String name){
         this.name = name;
@@ -22,7 +24,6 @@ public class Player {
         dice = new Random();
         propertyMap = new HashMap<>();
     }
-
 
     public int throwDice() {
         int am = dice.nextInt(5) +1;
@@ -59,6 +60,14 @@ public class Player {
             amountOfMoney -= amount;
         }
         return payedAmount;
+    }
+
+    public void drawCard(Card card) {
+        this.card = card;
+    }
+
+    public void discardCard() {
+
     }
 
     public void printAmountOfMoney() {

@@ -88,7 +88,7 @@ public class MonopolyBoardData {
     public static final int MAX_BOARDSPACE_NR = 39;
 
     /**
-     * De boardspace types.
+     * De nextBoardspace types.
      */
     public enum BoardspaceType {
         STATION(4, "Station", false),

@@ -1,6 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
 import jmol.jasper.MonopolyBoard.Logic.Boardspace;
+import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
 import jmol.jasper.MonopolyBoard.Logic.Property;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
@@ -13,7 +14,7 @@ public class BuyPropertyAction extends PlayerAction {
 
     @Override
     public void handleAction() {
-        Property property = (Property) boardspace;
+        Property property = (Property) MonopolyBoardData.getBoardspace(player.getBoardspaceNr());
 
         // Ask if player wants to buy the property:
         if (!ExpressionProvider.getInstance().
