@@ -146,7 +146,15 @@ public class Game {
         return true;
     }
 
-    private void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
+    public void putPlayerOnNewBoardSpace(Player player, Boardspace boardspace, boolean didPassStart) {
+        playerBoardspaceMap.put(player, boardspace);
+        if (didPassStart) {
+            System.out.println(player + " is voorbij start gekomen en ontvangt 200 euro!");
+            player.receiveMoney(200);
+        }
+    }
+
+    public void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
         int previousBoardSpaceNr = player.getBoardspaceNr();
         int newBoardSpaceNr = determineNewBoardspaceNr(previousBoardSpaceNr, diceThrow);
 
@@ -166,6 +174,11 @@ public class Game {
             newBoardspaceNr -= MonopolyBoardData.MAX_BOARDSPACE_NR - 1;
         }
         return newBoardspaceNr;
+    }
+
+    private Boardspace determineNewBoardSpace(Player player, int diceThrow) {
+        int newBoardSpaceNr = determineNewBoardspaceNr(player.getBoardspaceNr(), diceThrow);
+        return MonopolyBoardData.getBoardspace(newBoardSpaceNr);
     }
 
     private void performBoardspaceActions(Player player, int diceThrow) {

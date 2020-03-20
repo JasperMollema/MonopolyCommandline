@@ -11,6 +11,6 @@ public class GoToJail extends Boardspace{
     @Override
     public PlayerActionType performAction() {
         System.out.println(visitor + " moet naar de gevangenis!");
-        return PlayerActionType.GO_TO_JAIL_ACTION;
+        return PlayerActionType.GO_TO_JAIL;
     }
 }
