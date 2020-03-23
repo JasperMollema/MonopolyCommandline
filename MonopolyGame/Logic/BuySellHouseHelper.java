@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
-import jmol.jasper.MonopolyBoard.Logic.Street;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 
@@ -92,6 +92,6 @@ public class BuySellHouseHelper {
             ownedCities[i] = cities.get(i).getName();
         }
         int cityIndex = ExpressionProvider.getInstance().getOption(ownedCities, "Voor welke stad?");
-        return bank.getOwnedCities(player, cities.get(cityIndex));
+        return bank.getOwnedStreetsOfCity(player, cities.get(cityIndex));
     }
 }

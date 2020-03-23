@@ -1,8 +1,11 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Boardspace;
-import jmol.jasper.MonopolyBoard.Logic.Jail;
-import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Jail;
+import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
+import jmol.jasper.MonopolyGame.Actions.PlayerAction;
+import jmol.jasper.MonopolyGame.Actions.PlayerActionFactory;
+import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.KeuzeMenu;
 
@@ -21,7 +24,7 @@ public class Game {
     public Game(GameSetup gameSetup){
         players = makeArrayList(gameSetup.getPlayers());
         playerBoardspaceMap = gameSetup.getPlayerBoardspaceMap();
-        bank = gameSetup.getBank();
+        bank = Bank.getInstance();
         bank.fillPlayerlistMap(players);
         keuzeMenu = new KeuzeMenu();
         jail = (Jail) MonopolyBoardData.getBoardspace(MonopolyBoardData.SPACENR_GEVANGENIS);
@@ -56,7 +59,6 @@ public class Game {
         }
         PlayerAction playerAction = PlayerActionFactory.getPlayerAction(
                 playerActionType,
-                bank,
                 player,
                 null
                 );
@@ -74,7 +76,6 @@ public class Game {
             }
             PlayerAction playerAction = PlayerActionFactory.getPlayerAction(
                     playerActionType,
-                    bank,
                     player,
                     playerBoardspaceMap.get(player));
             playerAction.handleAction();
@@ -146,15 +147,7 @@ public class Game {
         return true;
     }
 
-    public void putPlayerOnNewBoardSpace(Player player, Boardspace boardspace, boolean didPassStart) {
-        playerBoardspaceMap.put(player, boardspace);
-        if (didPassStart) {
-            System.out.println(player + " is voorbij start gekomen en ontvangt 200 euro!");
-            player.receiveMoney(200);
-        }
-    }
-
-    public void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
+    private void putPlayerOnNewBoardSpace(Player player, int diceThrow, boolean releasedFromJail) {
         int previousBoardSpaceNr = player.getBoardspaceNr();
         int newBoardSpaceNr = determineNewBoardspaceNr(previousBoardSpaceNr, diceThrow);
 
@@ -189,7 +182,7 @@ public class Game {
 
     private void printGameStatus(){
         for (Player player : players){
-            PlayerActionFactory.getPlayerAction(PlayerActionType.PRINT_STATUS, bank, player, null);
+            PlayerActionFactory.getPlayerAction(PlayerActionType.PRINT_STATUS,player, null);
         }
         System.out.println("Er zijn " + nrOfRounds + " ronden gespeeld.");
     }

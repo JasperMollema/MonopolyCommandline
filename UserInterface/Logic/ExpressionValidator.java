@@ -1,14 +1,18 @@
 package jmol.jasper.UserInterface.Logic;
 
 public class ExpressionValidator {
-    private static ExpressionValidator instance;
+    private static volatile ExpressionValidator instance;
 
     private ExpressionValidator() {
     }
 
     public static ExpressionValidator getInstance() {
         if (instance == null) {
-            return new ExpressionValidator();
+            synchronized (ExpressionValidator.class) {
+                if (instance == null) {
+                    instance = new ExpressionValidator();
+                }
+            }
         }
         return instance;
     }

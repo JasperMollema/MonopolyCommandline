@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Boardspace;
-import jmol.jasper.MonopolyBoard.Logic.MonopolyBoardData;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
+import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 
@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class GameSetup {
     private Player[] players;
-    private Bank bank;
     private Integer numberOfPlayers;
     private Map<Player, Boardspace> playerBoardspaceMap;
     private final int MAX_PLAYERS = 6;
@@ -20,7 +19,6 @@ public class GameSetup {
 
     public GameSetup() {
         playerBoardspaceMap = new HashMap<>();
-        bank = new Bank();
     }
 
     public Game createGame() {
@@ -76,9 +74,5 @@ public class GameSetup {
 
     public Map<Player, Boardspace> getPlayerBoardspaceMap() {
         return playerBoardspaceMap;
-    }
-
-    public Bank getBank() {
-        return bank;
     }
 }

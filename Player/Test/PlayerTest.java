@@ -1,8 +1,8 @@
 //package jmol.jasper.Player.Test;
 //
-//import jmol.jasper.MonopolyBoard.Logic.Station;
-//import jmol.jasper.MonopolyBoard.Logic.Street;
-//import jmol.jasper.Player.Logic.Player;
+//import jmol.jasper.MonopolyBoard.BoardSpaces.Station;
+//import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+//import jmol.jasper.Player.Data.Player;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
 //

@@ -1,7 +1,7 @@
 package jmol.jasper.UserInterface.Logic;
 
 public class ExpressionProvider {
-    private static ExpressionProvider instance;
+    private static volatile ExpressionProvider instance;
     private UserInputReader userInputReader;
     private String defaultErrorMessage;
 
@@ -12,7 +12,11 @@ public class ExpressionProvider {
 
     public static ExpressionProvider getInstance() {
         if (instance == null) {
-            return new ExpressionProvider();
+            synchronized (ExpressionProvider.class) {
+                if (instance == null) {
+                    instance = new ExpressionProvider();
+                }
+            }
         }
         return instance;
     }

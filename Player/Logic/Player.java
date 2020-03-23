@@ -1,7 +1,7 @@
 package jmol.jasper.Player.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.Card;
-import jmol.jasper.MonopolyBoard.Logic.Property;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
+import jmol.jasper.MonopolyBoard.Data.Card;
 
 import java.util.*;
 

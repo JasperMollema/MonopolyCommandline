@@ -1,6 +1,11 @@
 package jmol.jasper.MonopolyGame.Logic;
 
-import jmol.jasper.MonopolyBoard.Logic.*;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Station;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+import jmol.jasper.MonopolyBoard.BoardSpaces.Utility;
+import jmol.jasper.MonopolyBoard.Data.Board;
+import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 
 import java.util.ArrayList;
@@ -9,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class  Bank {
+    private static volatile Bank instance;
     private int nrOfHouses;
     private int nrOfHotels;
     private final int NR_OF_HOUSES = 32;
@@ -56,6 +62,17 @@ public class  Bank {
         playerStationMap = new HashMap<>();
     }
 
+    public static Bank getInstance() {
+        if (instance == null) {
+            synchronized (Bank.class) {
+                if (instance == null) {
+                    instance = new Bank();
+                }
+            }
+        }
+        return instance;
+    }
+
     public void buyPropertyFromBank(Player player, Property property) {
         playerPropertyMap.get(player).add(property);
         bankProperties.remove(property);
@@ -71,7 +88,7 @@ public class  Bank {
      * @param player
      * @return List with all te streets owned by the player.
      */
-    public List<Street> getOwnedCities(Player player) {
+    public List<Street> getOwnedStreetsOfCity(Player player) {
         List<Street> ownedStreets = new ArrayList<>();
         for (Property property : playerPropertyMap.get(player)) {
             if (isStreet(property) && ownesAllTypes(player, property)) {
@@ -87,7 +104,7 @@ public class  Bank {
      * @param boardspaceType
      * @return
      */
-    public List<Street> getOwnedCities(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
+    public List<Street> getOwnedStreetsOfCity(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
         List<Street> streets = new ArrayList<>();
         if (playerPropertyMap.get(player) == null || !boardspaceType.getIsCity()) {
             return null;

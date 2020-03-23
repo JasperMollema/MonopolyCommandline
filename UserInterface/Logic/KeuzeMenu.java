@@ -1,6 +1,6 @@
 package jmol.jasper.UserInterface.Logic;
 
-import jmol.jasper.MonopolyGame.Logic.PlayerActionType;
+import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
 
 public class KeuzeMenu {
     private String[] optionsBeforeTurn;
