@@ -12,47 +12,28 @@ public class BuyHousesAction implements PlayerAction {
     private Bank bank;
     private HouseBuyer houseBuyer;
     private BuySellHousesUserInterface buySellHousesUserInterface;
-    private boolean bankHasHouses;
-    private boolean bankHasHotels;
-    private boolean bankHasOneHouse;
+    private TransactionType transactionType;
+
 
     public BuyHousesAction() {
         bank = new Bank();
         buySellHousesUserInterface = new BuySellHousesUserInterface();
-        houseBuyer = new HouseBuyer();
+        houseBuyer = new HouseBuyer(bank);
     }
 
     @Override
     public void handleAction(Player player) {
-        // Determine if bank has enough houses.
-        setAvailableHousesAndHotels();
-
-        if (!bankHasHouses && !bankHasHotels) {
+        // If the bank has no houses or hotels, it is not possible to buy any.
+        if (!houseBuyer.hasBankHousesOrHotels()) {
             buySellHousesUserInterface.printBankHasNoHouses();
             return;
         }
 
-        // Determine which streets the player can buy houses.
-        List<Street> streetsWherePlayerCanBuyHouses = bank.getOwnedStreetsOfCity(player);
-        Street street = buySellHousesUserInterface.askPlayerWhichStreetToBuyHouses(streetsWherePlayerCanBuyHouses);
-        List<Street> city = MonopolyBoardData.getCity(street);
+        Street streetToBuyHouses = determineWhichStreetToBuyHouses(player);
 
-        // Determine how many houses can be bought.
-        int nrHousesCanBeBought = houseBuyer.determineHowManyHousesCanBeBought(street, city);
+        determineTransactionType(streetToBuyHouses);
 
-        TransactionType transactionType = houseBuyer.determineTransactionType(street, nrHousesCanBeBought);
-        if (!hasBankEnoughForTransactionType(transactionType)) {
-            transactionType = determineDefinitiveTransactionType(transactionType);
-        }
-
-        buySellHousesUserInterface.askPlayerHowManyHousesToBuy(street.getName(), transactionType);
-
-        if (nrHousesCanBeBought > 1) {
-            nrOfHousesToBuy = buySellHousesUserInterface.askPlayerHowManyHousesToBuy(streetToBuyHouses.getName());
-        }
-
-        transactionType = houseBuyer.determineTransactionType(streetToBuyHouses, nrOfHousesToBuy);
-
+        int nrOfHousesToBuy = buySellHousesUserInterface.askPlayerHowManyHousesToBuy(streetToBuyHouses.getName(), transactionType);
 
         // --> confirm amount.
 
@@ -65,29 +46,27 @@ public class BuyHousesAction implements PlayerAction {
 
     }
 
-    private void setAvailableHousesAndHotels() {
-        bankHasHouses = bank.getNrOfHouses() > 0;
-        bankHasHotels = bank.getNrOfHotels() > 0;
-        bankHasOneHouse = bank.getNrOfHouses() == 1;
+    private Street determineWhichStreetToBuyHouses(Player player) {
+        List<Street> streetsWherePlayerCanBuyHouses = bank.getOwnedStreetsOfCity(player);
+        return buySellHousesUserInterface.askPlayerWhichStreetToBuyOrSellHouses(streetsWherePlayerCanBuyHouses);
     }
 
-    private TransactionType determineDefinitiveTransactionType(TransactionType transactionType) {
-        if (hasBankEnoughForTransactionType(transactionType)) {
-            return transactionType;
+    private void determineTransactionType(Street street) {
+        List<Street> city = MonopolyBoardData.getCity(street);
+        int nrHousesCanBeBought = houseBuyer.determineHowManyHousesCanBeBought(street, city);
+        transactionType = houseBuyer.determineTransactionType(street, nrHousesCanBeBought);
+
+        if (nrHousesCanBeBought == 2 && !houseBuyer.hasBankEnoughHousesForTransaction(transactionType)) {
+            nrHousesCanBeBought = 1;
+            transactionType = houseBuyer.determineTransactionType(street, nrHousesCanBeBought);
         }
-        return TransactionType.HOUSE_AND_HOTEL;
+
+        if (!houseBuyer.hasBankEnoughHousesForTransaction(transactionType)) {
+            nrHousesCanBeBought = 0;
+        }
+
+        transactionType = houseBuyer.determineTransactionType(street, nrHousesCanBeBought);
     }
-
-    private boolean hasBankEnoughForTransactionType(TransactionType transactionType) {
-        return TransactionType.TWO_HOUSES.equals(transactionType) && bankHasHouses && !bankHasOneHouse
-                || TransactionType.ONE_HOUSE.equals(transactionType) && bankHasOneHouse
-                || TransactionType.HOTEL.equals(transactionType) && bankHasHotels
-                || TransactionType.HOUSE_AND_HOTEL.equals(transactionType) && bankHasHouses && bankHasHotels;
-     }
-
-
-
-
 
     private boolean verifySale(Street street, int amount, boolean isHotel) {
         String question;

@@ -1,13 +1,19 @@
 package jmol.jasper.MonopolyGame.Actions.PlayerActions;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+import jmol.jasper.MonopolyBoard.Data.Bank;
 
 import java.util.List;
 
 public class HouseBuyer {
     private static int MAX_AMOUNT_OF_HOUSES = 5;
+    private Bank bank;
+    private boolean hasBankHouses;
+    private boolean hasBankHotels;
+    private boolean hasBankTwoHouses;
 
-    public HouseBuyer() {
+    public HouseBuyer(Bank bank) {
+        this.bank = bank;
     }
 
     public int determineHowManyHousesCanBeBought(Street street, List<Street> city) {
@@ -33,7 +39,11 @@ public class HouseBuyer {
     public TransactionType determineTransactionType(Street streetToBuyHouses, int amountToBuy) {
         int housesOnStreet = streetToBuyHouses.getNumberOfHouses();
 
-        if (housesOnStreet < 4 && amountToBuy == 1) {
+        if (isIllegalTransaction(streetToBuyHouses, amountToBuy)) {
+            return TransactionType.NO_TRANSACTION;
+        }
+
+        else if (housesOnStreet < 4 && amountToBuy == 1) {
             return TransactionType.ONE_HOUSE;
         }
 
@@ -49,6 +59,51 @@ public class HouseBuyer {
             return TransactionType.TWO_HOUSES;
         }
     }
+
+    public boolean hasBankEnoughHousesForTransaction(TransactionType transactionType) {
+        setAvailableHousesAndHotels();
+
+        if (!hasBankHousesOrHotels()) {
+            return false;
+        }
+
+        if (TransactionType.ONE_HOUSE.equals(transactionType)) {
+            return hasBankHouses;
+        }
+
+        if (TransactionType.HOTEL.equals(transactionType)) {
+            return hasBankHotels;
+        }
+
+        if (TransactionType.HOUSE_AND_HOTEL.equals(transactionType)) {
+            return hasBankHouses && hasBankHotels;
+        }
+
+        if (TransactionType.TWO_HOUSES.equals(transactionType)) {
+            return hasBankTwoHouses;
+        }
+
+        return true;
+    }
+
+    public boolean hasBankHousesOrHotels() {
+        setAvailableHousesAndHotels();
+        return hasBankHouses || hasBankHotels;
+    }
+
+    private boolean isIllegalTransaction(Street street, int amountToBuy) {
+        return street.getNumberOfHouses() > 4
+                || amountToBuy == 0
+                || amountToBuy > 2;
+    }
+
+    private void setAvailableHousesAndHotels() {
+        hasBankHouses = bank.getNrOfHouses() > 0;
+        hasBankHotels = bank.getNrOfHotels() > 0;
+        hasBankTwoHouses = bank.getNrOfHouses() > 1;
+    }
+
+
 
 //    public boolean buyHouseOrHotel(Street street) {
 //        // Calculate how many houses the player can buy (can only be 1 or 2).

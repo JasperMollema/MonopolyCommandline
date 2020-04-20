@@ -11,7 +11,7 @@ import java.util.List;
 
 public class SellHouseBoardSpaceAction implements PlayerAction {
     private boolean hasHouses;
-    private BuySellHousesUserInterface buySellHousesUserInterface
+    private BuySellHousesUserInterface buySellHousesUserInterface;
     private Street[] streetsWithHouses;
     private String[] cityOrStreet;
     private Player player;
@@ -58,7 +58,7 @@ public class SellHouseBoardSpaceAction implements PlayerAction {
     }
 
     private void sellHousesSingleStreet() {
-        Street street = buySellHousesUserInterface.askPlayerWhichStreetToBuyHouses(streetsWithHouses);
+        Street street = buySellHousesUserInterface.askPlayerWhichStreetToBuyOrSellHouses(getStreetsWithHouses());
         int amtCanBeSold = howManyCanBeSold(street);
         int amtToBeSold = 0;
 

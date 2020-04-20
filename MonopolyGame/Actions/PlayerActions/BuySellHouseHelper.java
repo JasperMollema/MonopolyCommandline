@@ -21,16 +21,6 @@ public class BuySellHouseHelper {
         return ownedStreets;
     }
 
-    public static Street askWhichStreetPerformAction(Street[] streets, String question) {
-        String[] streetOptions = new String[streets.length];
-        for (int i = 0; i<streets.length; i++) {
-            streets[i].printNumberOfHouses();
-            streetOptions[i] = streets[i].getName();
-        }
-        int choice = ExpressionProvider.getInstance().getOption(streetOptions, question);
-        return streets[choice];
-    }
-
     public static boolean onlyStreetWithAmtHouses(List<Street> streets, int amountHouses) {
         int sum = 0;
         for (Street street: streets) {
