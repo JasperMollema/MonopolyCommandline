@@ -2,13 +2,16 @@ package jmol.jasper.MonopolyBoard.Data;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MonopolyBoardData {
      /**
      * The names of the boardspaces.
      */
     public static final String START = "Start";
     public static final String DORPSSTRAAT = "Dorpsstraat";
-    public static final String ALGEMEEN_FONDS_1 = "Algemeen Fonds";
     public static final String BRINK = "Brink";
     public static final String INKOMSTENBELASTING = "Inkomstenbelasting";
     public static final String STATION_ZUID = "Station Zuid";
@@ -96,7 +99,7 @@ public class MonopolyBoardData {
         STATION(4, "Station", false),
         UTILITY(2, "NutsBedrijf", false),
         STREET_DORP(2, "Dorp", true),
-        STREET_ARHNEM(3, "Arhnem", true),
+        STREET_ARNHEM(3, "Arhnem", true),
         STREET_HAARLEM(3, "Haarlem", true),
         STREET_UTRECHT(3, "Utrecht", true),
         STREET_GRONINGEN(3, "Groningen", true),
@@ -199,10 +202,10 @@ public class MonopolyBoardData {
            new Street(BRINK, SPACENR_BRINK, BoardspaceType.STREET_DORP, DORP_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, DORP_HUUR_DUUR),
            new Taxation(INKOMSTENBELASTING, SPACENR_INKOMSTENBELASTING, BoardspaceType.TAX, BEDRAG_INKOMENSBELASTING),
            new Station(STATION_ZUID, SPACENR_STATION_ZUID, BoardspaceType.STATION, STATION_WAARDE),
-           new Street(STEENSTRAAT, SPACENR_STEENSTRAAT, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
+           new Street(STEENSTRAAT, SPACENR_STEENSTRAAT, BoardspaceType.STREET_ARNHEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
            new Chance(KANS, SPACENR_KANS_1, BoardspaceType.CARD),
-           new Street(KETELSTRAAT, SPACENR_KETELSTRAAT, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
-           new Street(VELPERPLEIN, SPACENR_VELPERPLEIN, BoardspaceType.STREET_ARHNEM, ARNHEM_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_DUUR),
+           new Street(KETELSTRAAT, SPACENR_KETELSTRAAT, BoardspaceType.STREET_ARNHEM, ARNHEM_WAARDE_NORMAAL, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_NORMAAL),
+           new Street(VELPERPLEIN, SPACENR_VELPERPLEIN, BoardspaceType.STREET_ARNHEM, ARNHEM_WAARDE_DUUR, DORP_ARHNEM_HUISPRIJS, ARNHEM_HUUR_DUUR),
            new Jail(GEVANGENIS, SPACENR_GEVANGENIS, BoardspaceType.JAIL),
            new Street(BARTELJORISSTRAAT, SPACENR_BARTELJORISSTRAAT, BoardspaceType.STREET_HAARLEM, HAARLEM_WAARDE_NORMAAL, HAARLEM_UTRECHT_HUISPRIJS, HAARLEM_HUUR_NORMAAL),
            new Utility(ELEKTRICITEITSBEDRIJF, SPACENR_ELEKTRICITEITSBEDRIJF, BoardspaceType.UTILITY, NUTS_WAARDE),
@@ -240,5 +243,13 @@ public class MonopolyBoardData {
                 return null;
             }
             return MONOPOLYBOARD[boardspaceNr];
+        }
+
+        public static List<Street> getCity(Street street) {
+            List<Street> city = new ArrayList<>();
+            Arrays.asList(MONOPOLYBOARD).stream()
+                    .filter(a -> a.getBoardspaceType().equals(street.getBoardspaceType()))
+                    .forEach(a -> city.add((Street)a));
+            return city;
         }
     }

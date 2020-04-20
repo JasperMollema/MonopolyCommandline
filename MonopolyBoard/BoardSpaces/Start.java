@@ -1,6 +1,7 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
+
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 
 public class Start extends Boardspace{
 
@@ -9,9 +10,9 @@ public class Start extends Boardspace{
     }
 
     @Override
-    public PlayerActionType performAction() {
+    public BoardSpaceAction getBoardspaceAction() {
         System.out.println(visitor + " staat op start en ontvangt 400 euro!");
         visitor.receiveMoney(400);
-        return PlayerActionType.NO_PLAYER_ACTION;
+        return null;
     }
 }

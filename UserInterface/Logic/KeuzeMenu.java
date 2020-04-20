@@ -1,6 +1,9 @@
 package jmol.jasper.UserInterface.Logic;
 
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.Actions.PlayerActions.BuyHousesAction;
+import jmol.jasper.MonopolyGame.Actions.PlayerActions.PlayerAction;
+import jmol.jasper.MonopolyGame.Actions.PlayerActions.SellHouseBoardSpaceAction;
+import jmol.jasper.MonopolyGame.Actions.PrintPlayerStatus;
 
 public class KeuzeMenu {
     private String[] optionsBeforeTurn;
@@ -27,26 +30,26 @@ public class KeuzeMenu {
                 EINDE_BEURT
         };
     }
-    public PlayerActionType getChoiceBeforeTurn() {
+    public PlayerAction getChoiceBeforeTurn() {
         int choice = ExpressionProvider.getInstance().getOption(optionsBeforeTurn, startMenu);
         return getChoice(optionsBeforeTurn[choice]);
     }
 
-    public PlayerActionType getChoiceAfterTurn() {
+    public PlayerAction getChoiceAfterTurn() {
         int choice = ExpressionProvider.getInstance().getOption(optionsAfterTurn, startMenu);
         return getChoice(optionsAfterTurn[choice]);
     }
 
-    private PlayerActionType getChoice(String choice) {
+    private PlayerAction getChoice(String choice) {
         switch (choice) {
             case HUIZEN_KOPEN:
-                return PlayerActionType.BUY_HOUSES;
+                return new BuyHousesAction();
             case HUIZEN_VERKOPEN:
-                return PlayerActionType.SELL_HOUSES;
+                return new SellHouseBoardSpaceAction();
             case PRINT_OVERZICHT:
-                return PlayerActionType.PRINT_STATUS;
+                return new PrintPlayerStatus();
             default:
-                return PlayerActionType.NO_PLAYER_ACTION;
+                return null;
         }
     }
 }

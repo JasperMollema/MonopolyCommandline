@@ -1,18 +1,14 @@
 package jmol.jasper.MonopolyGame.Actions;
 
-import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
+import jmol.jasper.MonopolyGame.Actions.PlayerActions.PlayerAction;
 import jmol.jasper.Player.Logic.Player;
 
-public class PrintPlayerStatus extends PlayerAction {
-
-    public PrintPlayerStatus(Player player, Boardspace boardspace) {
-        super(player, boardspace);
-    }
+public class PrintPlayerStatus implements PlayerAction {
 
     @Override
-    public void handleAction() {
+    public void handleAction(Player player) {
         StringBuilder playerStatus = new StringBuilder(player.getName());
         playerStatus.append(" staat op ");
         playerStatus.append(MonopolyBoardData.getBoardspace(player.getBoardspaceNr()).getName());

@@ -1,31 +1,33 @@
-package jmol.jasper.MonopolyGame.Actions;
+package jmol.jasper.MonopolyGame.Actions.PlayerActions;
 
-import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+import jmol.jasper.MonopolyBoard.Data.Bank;
 import jmol.jasper.MonopolyBoard.Data.Board;
-import jmol.jasper.MonopolyGame.Logic.BuySellHouseHelper;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellHouseAction extends PlayerAction {
+public class SellHouseBoardSpaceAction implements PlayerAction {
     private boolean hasHouses;
+    private BuySellHousesUserInterface buySellHousesUserInterface
     private Street[] streetsWithHouses;
-    private BuySellHouseHelper buySellHouseHelper;
     private String[] cityOrStreet;
+    private Player player;
+    private Bank bank;
 
-    public SellHouseAction(Player player, Boardspace boardspace) {
-        super(player, boardspace);
-        buySellHouseHelper = new BuySellHouseHelper();
-        streetsWithHouses = buySellHouseHelper.convertStreetListToArray(getStreetsWithHouses());
+    public SellHouseBoardSpaceAction() {
+        buySellHousesUserInterface = new BuySellHousesUserInterface();
+        streetsWithHouses = BuySellHouseHelper.convertStreetListToArray(getStreetsWithHouses());
         hasHouses = streetsWithHouses.length > 0;
         cityOrStreet = new String[]{"Enkele straat", "Alle huizen in een stad"};
     }
 
     @Override
-    public void handleAction() {
+    public void handleAction(Player player) {
+        this.player = player;
+        this.bank = new Bank();
         if (!hasHouses) {
             System.out.println("Je hebt geen huizen!");
             return;
@@ -46,7 +48,7 @@ public class SellHouseAction extends PlayerAction {
 
 
     private void sellAllHousesInCity() {
-        List<Street> city = buySellHouseHelper.askForWhichCity(bank, player);
+        List<Street> city = BuySellHouseHelper.askForWhichCity(bank, player);
         if (!verifySell(city.get(0),0, true)) {
             return;
         }
@@ -56,9 +58,7 @@ public class SellHouseAction extends PlayerAction {
     }
 
     private void sellHousesSingleStreet() {
-        Street street = buySellHouseHelper.askWhichStreetPerformAction(
-                    streetsWithHouses,
-                    "Voor welke straat wil je huizen verkopen?");
+        Street street = buySellHousesUserInterface.askPlayerWhichStreetToBuyHouses(streetsWithHouses);
         int amtCanBeSold = howManyCanBeSold(street);
         int amtToBeSold = 0;
 
@@ -87,8 +87,8 @@ public class SellHouseAction extends PlayerAction {
     private int howManyCanBeSold(Street street) {
         List<Street> city = new Board<Street>().getBoardspaceList(street.getBoardspaceType());
         int amtOfHouses = street.getNumberOfHouses();
-        boolean isMaxAmtHousesInCity = buySellHouseHelper.getMaxAmtOfHousesInCity(city) == amtOfHouses;
-        boolean sameAmtOfHousesInCity = buySellHouseHelper.everyStreetSameAmtHouses(city);
+        boolean isMaxAmtHousesInCity = BuySellHouseHelper.getMaxAmtOfHousesInCity(city) == amtOfHouses;
+        boolean sameAmtOfHousesInCity = BuySellHouseHelper.everyStreetSameAmtHouses(city);
         String streetName = street.getName();
 
         if (isMaxAmtHousesInCity &&
@@ -98,14 +98,14 @@ public class SellHouseAction extends PlayerAction {
             return 2;
         }
 
-        if (buySellHouseHelper.onlyOneStreetWithHouses(city) ||
+        if (BuySellHouseHelper.onlyOneStreetWithHouses(city) ||
                 sameAmtOfHousesInCity ||
                 isMaxAmtHousesInCity) {
             System.out.println("Je kan voor 1 huis verkopen voor " + streetName);
             return 1;
         }
 
-        if (amtOfHouses == buySellHouseHelper.getMinAmtOfHousesInCity(city)) {
+        if (amtOfHouses == BuySellHouseHelper.getMinAmtOfHousesInCity(city)) {
             System.out.println("Je kan voor " + streetName + " geen huizen verkopen!");
             return 0;
         }
@@ -116,8 +116,8 @@ public class SellHouseAction extends PlayerAction {
         return ExpressionProvider.getInstance().
                 getOption(
                         cityOrStreet,
-                        "Wil je voor enkele straat of hele stad huizen verkopen")
-                == 1;
+                        "Wil je voor enkele straat of hele stad huizen verkopen"
+                ) == 1;
     }
 
     private List<Street> getStreetsWithHouses() {

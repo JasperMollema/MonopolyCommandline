@@ -1,7 +1,8 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.GoToJailBoardSpaceAction;
 
 public class GoToJail extends Boardspace{
 
@@ -10,8 +11,8 @@ public class GoToJail extends Boardspace{
     }
 
     @Override
-    public PlayerActionType performAction() {
+    public BoardSpaceAction getBoardspaceAction() {
         System.out.println(visitor + " moet naar de gevangenis!");
-        return PlayerActionType.GO_TO_JAIL;
+        return new GoToJailBoardSpaceAction();
     }
 }

@@ -1,10 +1,10 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 import jmol.jasper.Player.Logic.Player;
 
-public class Boardspace {
+public abstract class Boardspace {
     protected String name;
     protected int spaceNr;
     protected MonopolyBoardData.BoardspaceType boardspaceType;
@@ -19,13 +19,12 @@ public class Boardspace {
 
     public Boardspace() {}
 
-    public PlayerActionType performAction(){return null;}
+    public BoardSpaceAction getBoardspaceAction(){return null;}
 
-    public int prepareAction (Player player, int diceThrow) {
+    public void prepareAction (Player player, int diceThrow) {
         visitor = player;
         diceThrowVisitor = diceThrow;
         System.out.println(player + " staat op " + name + ".");
-        return spaceNr;
     }
 
     public String getName() {

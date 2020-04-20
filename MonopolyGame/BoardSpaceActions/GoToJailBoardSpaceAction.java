@@ -1,18 +1,14 @@
-package jmol.jasper.MonopolyGame.Actions;
+package jmol.jasper.MonopolyGame.BoardSpaceActions;
 
-import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Jail;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
 
-public class GoToJailAction extends PlayerAction {
-    public GoToJailAction(Player player, Boardspace boardspace) {
-        super(player, boardspace);
-    }
+public class GoToJailBoardSpaceAction implements BoardSpaceAction {
 
     @Override
-    public void handleAction() {
+    public void handleAction(Player player) {
         Jail prison = (Jail) MonopolyBoardData.getBoardspace(MonopolyBoardData.SPACENR_GEVANGENIS);
         if (player.hasGetOutOfJailCard()) {
             boolean playGetOutOfJailCard = ExpressionProvider.getInstance().getBoolean(

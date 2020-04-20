@@ -1,18 +1,14 @@
-package jmol.jasper.MonopolyGame.Actions;
+package jmol.jasper.MonopolyGame.BoardSpaceActions;
 
-import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 
 
-public class PayRentAction extends PlayerAction {
-    public PayRentAction(Player player, Boardspace boardspace) {
-        super(player, boardspace);
-    }
+public class PayRentBoardSpaceAction implements BoardSpaceAction {
 
     @Override
-    public void handleAction() {
+    public void handleAction(Player player) {
         Property property = (Property) MonopolyBoardData.getBoardspace(player.getBoardspaceNr());
         Player owner = property.getOwner();
         if (player.equals(owner)) {

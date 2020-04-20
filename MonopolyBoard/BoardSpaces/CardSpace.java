@@ -2,7 +2,7 @@ package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 import jmol.jasper.MonopolyBoard.Data.Card;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.CardAction;
 
 public abstract class CardSpace extends Boardspace {
 
@@ -11,11 +11,9 @@ public abstract class CardSpace extends Boardspace {
     }
 
     @Override
-    public PlayerActionType performAction() {
-        return drawCard().getPlayerActionType();
+    public CardAction getBoardspaceAction() {
+        return new CardAction();
     }
 
     public abstract Card drawCard();
-
-    public abstract boolean discardCard(Card card);
 }

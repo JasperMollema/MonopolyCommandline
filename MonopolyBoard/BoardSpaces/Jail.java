@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 import jmol.jasper.Player.Logic.Player;
 
 import java.util.HashMap;
@@ -16,9 +16,9 @@ public class Jail extends Boardspace {
     }
 
     @Override
-    public PlayerActionType performAction() {
+    public BoardSpaceAction getBoardspaceAction() {
         System.out.println("Alleen op bezoek!");
-        return PlayerActionType.NO_PLAYER_ACTION;
+        return null;
     }
 
     public void addRound(Player player) {

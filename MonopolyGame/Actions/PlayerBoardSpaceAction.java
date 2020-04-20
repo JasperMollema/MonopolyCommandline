@@ -1,10 +1,11 @@
 package jmol.jasper.MonopolyGame.Actions;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Boardspace;
-import jmol.jasper.MonopolyGame.Logic.Bank;
+import jmol.jasper.MonopolyBoard.Data.Bank;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 import jmol.jasper.Player.Logic.Player;
 
-public abstract class PlayerAction implements Action {
+public abstract class PlayerBoardSpaceAction implements BoardSpaceAction {
     protected Bank bank;
     protected Player player;
     /**
@@ -12,10 +13,10 @@ public abstract class PlayerAction implements Action {
      */
     protected Boardspace nextBoardspace;
 
-    public PlayerAction(Player player, Boardspace boardspace) {
+    public PlayerBoardSpaceAction(Player player, Boardspace nextBoardspace) {
         this.player = player;
-        this.nextBoardspace = boardspace;
-        bank = Bank.getInstance();
+        this.nextBoardspace = nextBoardspace;
+        bank = new Bank();
     }
 
     public abstract void handleAction();

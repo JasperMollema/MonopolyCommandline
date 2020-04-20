@@ -23,8 +23,4 @@ public class CommunityChest extends CardSpace {
         return card;
     }
 
-    @Override
-    public boolean discardCard(Card card) {
-        return communityChestCards.discardCard(card);
-    }
 }

@@ -1,11 +1,9 @@
-package jmol.jasper.MonopolyGame.Logic;
+package jmol.jasper.MonopolyBoard.Data;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Station;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
 import jmol.jasper.MonopolyBoard.BoardSpaces.Utility;
-import jmol.jasper.MonopolyBoard.Data.Board;
-import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 
 import java.util.ArrayList;
@@ -14,31 +12,38 @@ import java.util.List;
 import java.util.Map;
 
 public class  Bank {
-    private static volatile Bank instance;
-    private int nrOfHouses;
-    private int nrOfHotels;
-    private final int NR_OF_HOUSES = 32;
-    private final int NR_OF_HOTELS = 12;
-    private List<Street> onsDorp;
-    private List<Street> arnhem;
-    private List<Street> haarlem;
-    private List<Street> utrecht;
-    private List<Street> groningen;
-    private List<Street> denHaag;
-    private List<Street> rotterdam;
-    private List<Street> amsterdam;
-    private List<Utility> nutsBedrijven;
-    private List<Station> stations;
-    private List<Property> bankProperties;
-    private Map<Player, List<Station>> playerStationMap;
-    private Map<Player, List<Property>> playerPropertyMap;
-    private Map<Player, Map<MonopolyBoardData.BoardspaceType, Boolean>> playerOwnsAllTypes;
+    private static boolean isInitialized;
+    private static int nrOfHouses;
+    private static int nrOfHotels;
+    private static final int NR_OF_HOUSES = 32;
+    private static final int NR_OF_HOTELS = 12;
+    private static List<Street> onsDorp;
+    private static List<Street> arnhem;
+    private static List<Street> haarlem;
+    private static List<Street> utrecht;
+    private static List<Street> groningen;
+    private static List<Street> denHaag;
+    private static List<Street> rotterdam;
+    private static List<Street> amsterdam;
+    private static List<Utility> nutsBedrijven;
+    private static List<Station> stations;
+    private static List<Property> bankProperties;
+    private static Map<Player, List<Station>> playerStationMap;
+    private static Map<Player, List<Property>> playerPropertyMap;
+    private static Map<Player, Map<MonopolyBoardData.BoardspaceType, Boolean>> playerOwnsAllTypes;
 
     public Bank() {
+        if (!isInitialized) {
+            initialize();
+            isInitialized = true;
+        }
+    }
+
+    private void initialize() {
         nrOfHouses = NR_OF_HOUSES;
         nrOfHotels = NR_OF_HOTELS;
         onsDorp = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_DORP);
-        arnhem = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_ARHNEM);
+        arnhem = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_ARNHEM);
         haarlem = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_HAARLEM);
         utrecht = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_UTRECHT);
         groningen = new Board<Street>().getBoardspaceList(MonopolyBoardData.BoardspaceType.STREET_GRONINGEN);
@@ -60,17 +65,6 @@ public class  Bank {
         bankProperties.addAll(nutsBedrijven);
         playerOwnsAllTypes = new HashMap<>();
         playerStationMap = new HashMap<>();
-    }
-
-    public static Bank getInstance() {
-        if (instance == null) {
-            synchronized (Bank.class) {
-                if (instance == null) {
-                    instance = new Bank();
-                }
-            }
-        }
-        return instance;
     }
 
     public void buyPropertyFromBank(Player player, Property property) {
@@ -153,11 +147,11 @@ public class  Bank {
         nrOfHotels--;
     }
 
-    private boolean isStreet(Property property) {
+    private static boolean isStreet(Property property) {
         return !(stations.contains(property) || nutsBedrijven.contains(property));
     }
 
-    private void buyStation(Station station, Player player) {
+    private static void buyStation(Station station, Player player) {
         List<Station> ownedStations = playerStationMap.get(player);
         if (ownedStations == null) {
             ownedStations = new ArrayList<>();
@@ -166,14 +160,14 @@ public class  Bank {
         playerStationMap.put(player, ownedStations);
     }
 
-    private boolean ownesAllTypes(Player player, Property property) {
+    private static boolean ownesAllTypes(Player player, Property property) {
         if (playerOwnsAllTypes.get(player) == null) {
             return false;
         }
         return playerOwnsAllTypes.get(player).get(property.getBoardspaceType());
     }
 
-    private void addPropertyToOwnedTypes(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
+    private static void addPropertyToOwnedTypes(Player player, MonopolyBoardData.BoardspaceType boardspaceType) {
         if (playerOwnsAllTypes.get(player) == null) {
             playerOwnsAllTypes.put(player, new HashMap<>());
         }

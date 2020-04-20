@@ -1,7 +1,9 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BuyPropertyBoardSpaceAction;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.PayRentBoardSpaceAction;
 import jmol.jasper.Player.Logic.Player;
 
 public abstract class Property extends Boardspace {
@@ -15,11 +17,11 @@ public abstract class Property extends Boardspace {
     }
 
     @Override
-    public PlayerActionType performAction (){
+    public BoardSpaceAction getBoardspaceAction(){
         if (owner == null) {
-            return PlayerActionType.BUY_PROPERTY;
+            return new BuyPropertyBoardSpaceAction();
         } else
-            return PlayerActionType.PAY_RENT;
+            return new PayRentBoardSpaceAction();
     }
 
     public void buyProperty(Player player) {

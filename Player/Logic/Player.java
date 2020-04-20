@@ -1,7 +1,6 @@
 package jmol.jasper.Player.Logic;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Property;
-import jmol.jasper.MonopolyBoard.Data.Card;
 
 import java.util.*;
 
@@ -14,7 +13,6 @@ public class Player {
     private Map<String, Integer> propertyMap;
     private boolean isGameOver;
     private int nrGetOutOfJailCards;
-    private Card card;
 
     public Player(String name){
         this.name = name;
@@ -32,6 +30,7 @@ public class Player {
 
     public void buyProperty(Property property){
         properties.add(property);
+        payMoney(property.VALUE);
     }
 
     public void moveToBoardspace(int boardspaceNr) {
@@ -46,7 +45,7 @@ public class Player {
         return true;
     }
 
-    public int payMoney(int amount){
+    public int payMoney(int amount) {
         int payedAmount;
         if (amount < 0) {
             return 0;
@@ -54,24 +53,11 @@ public class Player {
         if (!canAffordPayment(amount)) {
             payedAmount = amountOfMoney;
             amountOfMoney = 0;
-        }
-        else {
+        } else {
             payedAmount = amount;
             amountOfMoney -= amount;
         }
         return payedAmount;
-    }
-
-    public void drawCard(Card card) {
-        this.card = card;
-    }
-
-    public void discardCard() {
-
-    }
-
-    public void printAmountOfMoney() {
-        System.out.println("Je hebt nog " + amountOfMoney + " euro.");
     }
 
     public boolean canAffordPayment(int amtToPay) {

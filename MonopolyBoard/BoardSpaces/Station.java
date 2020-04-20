@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
+import jmol.jasper.MonopolyBoard.Data.Bank;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Logic.Bank;
 
 public class Station extends Property {
 
@@ -12,6 +12,6 @@ public class Station extends Property {
 
     @Override
     public int calculateRent() {
-        return 25 * Bank.getInstance().getNrOFStationsOwned(owner);
+        return 25 * new Bank().getNrOFStationsOwned(owner);
     }
 }

@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
+import jmol.jasper.MonopolyBoard.Data.Bank;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Logic.Bank;
 import jmol.jasper.Player.Logic.Player;
 
 public class Street extends Property {
@@ -64,7 +64,7 @@ public class Street extends Property {
     }
 
     private int calculateRentNoHouses() {
-        if (Bank.getInstance().getOwnesAllTypes(this, owner)) {
+        if (new Bank().getOwnesAllTypes(this, owner)) {
             return 2 * RENT_NO_HOUSES;
         }
         return RENT_NO_HOUSES;

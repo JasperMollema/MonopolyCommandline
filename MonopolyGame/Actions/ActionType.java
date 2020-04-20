@@ -1,6 +1,6 @@
 package jmol.jasper.MonopolyGame.Actions;
 
-public enum PlayerActionType {
+public enum ActionType {
     BUY_PROPERTY("grond kopen"),
     BUY_HOUSES("huizen kopen"),
     SELL_HOUSES("huizen verkopen"),
@@ -21,7 +21,7 @@ public enum PlayerActionType {
      */
     private String actionMessage;
 
-    private PlayerActionType(String actionMessage) {this.actionMessage = actionMessage;}
+    private ActionType(String actionMessage) {this.actionMessage = actionMessage;}
 
     public String getActionMessage(){return actionMessage;}
 }

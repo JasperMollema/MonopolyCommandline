@@ -1,7 +1,7 @@
 package jmol.jasper.MonopolyBoard.BoardSpaces;
 
+import jmol.jasper.MonopolyBoard.Data.Bank;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Logic.Bank;
 
 public class Utility extends Property {
 
@@ -11,7 +11,7 @@ public class Utility extends Property {
 
     @Override
     public int calculateRent() {
-        if (Bank.getInstance().getOwnesAllTypes(this, owner)) {
+        if (new Bank().getOwnesAllTypes(this, owner)) {
             return diceThrowVisitor * 10;
         }
         else {

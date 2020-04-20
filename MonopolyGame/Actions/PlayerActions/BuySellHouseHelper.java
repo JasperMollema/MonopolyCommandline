@@ -1,6 +1,7 @@
-package jmol.jasper.MonopolyGame.Logic;
+package jmol.jasper.MonopolyGame.Actions.PlayerActions;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
+import jmol.jasper.MonopolyBoard.Data.Bank;
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
 import jmol.jasper.Player.Logic.Player;
 import jmol.jasper.UserInterface.Logic.ExpressionProvider;
@@ -10,7 +11,7 @@ import java.util.List;
 public class BuySellHouseHelper {
 
 
-    public Street[] convertStreetListToArray(List<Street> streetList) {
+    public static Street[] convertStreetListToArray(List<Street> streetList) {
         Street[] ownedStreets = new Street[streetList.size()];
         int i = 0;
         for (Street street : streetList) {
@@ -20,7 +21,7 @@ public class BuySellHouseHelper {
         return ownedStreets;
     }
 
-    public Street askWhichStreetPerformAction(Street[] streets, String question) {
+    public static Street askWhichStreetPerformAction(Street[] streets, String question) {
         String[] streetOptions = new String[streets.length];
         for (int i = 0; i<streets.length; i++) {
             streets[i].printNumberOfHouses();
@@ -30,7 +31,7 @@ public class BuySellHouseHelper {
         return streets[choice];
     }
 
-    public boolean onlyStreetWithAmtHouses(List<Street> streets, int amountHouses) {
+    public static boolean onlyStreetWithAmtHouses(List<Street> streets, int amountHouses) {
         int sum = 0;
         for (Street street: streets) {
             if (street.getNumberOfHouses() == amountHouses) {
@@ -40,7 +41,7 @@ public class BuySellHouseHelper {
         return sum == 1;
     }
 
-    public boolean everyStreetSameAmtHouses(List<Street> streets) {
+    public static boolean everyStreetSameAmtHouses(List<Street> streets) {
         int amtHouses = streets.get(0).getNumberOfHouses();
         for (Street street : streets) {
             if (street.getNumberOfHouses() != amtHouses) {
@@ -50,7 +51,7 @@ public class BuySellHouseHelper {
         return true;
     }
 
-    public boolean onlyOneStreetWithHouses(List<Street> streets) {
+    public static boolean onlyOneStreetWithHouses(List<Street> streets) {
         int sum = 0;
         for (Street street : streets) {
             if (street.getNumberOfHouses() > 0) {
@@ -60,7 +61,7 @@ public class BuySellHouseHelper {
         return sum == 1;
     }
 
-    public int getMinAmtOfHousesInCity(List<Street> streets) {
+    public static int getMinAmtOfHousesInCity(List<Street> streets) {
         int minAmountOfHouses = streets.get(0).getNumberOfHouses();
         for (Street street: streets) {
             if (street.getNumberOfHouses() < minAmountOfHouses) {
@@ -70,7 +71,7 @@ public class BuySellHouseHelper {
         return minAmountOfHouses;
     }
 
-    public int getMaxAmtOfHousesInCity(List<Street> streets) {
+    public static int getMaxAmtOfHousesInCity(List<Street> streets) {
         int maxAmtOfHouses = streets.get(0).getNumberOfHouses();
         for (Street street: streets) {
             if (street.getNumberOfHouses() > maxAmtOfHouses) {
@@ -80,7 +81,7 @@ public class BuySellHouseHelper {
         return maxAmtOfHouses;
     }
 
-    public List<Street> askForWhichCity(Bank bank, Player player) {
+    public static List<Street> askForWhichCity(Bank bank, Player player) {
         List<MonopolyBoardData.BoardspaceType> cities = bank.getOwnedCitiesBoardSpaceTypes(player);
         String[] ownedCities = new String[cities.size()];
 

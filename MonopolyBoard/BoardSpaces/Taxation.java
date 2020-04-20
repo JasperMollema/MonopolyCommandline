@@ -2,7 +2,7 @@ package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 
 public class Taxation extends Boardspace {
     private int taxAmount;
@@ -13,9 +13,9 @@ public class Taxation extends Boardspace {
     }
 
     @Override
-    public PlayerActionType performAction() {
+    public BoardSpaceAction getBoardspaceAction() {
         visitor.payMoney(taxAmount);
         System.out.println(visitor.getName() + " moet " + taxAmount + " belasting betalen!");
-        return PlayerActionType.NO_PLAYER_ACTION;
+        return null;
     }
 }

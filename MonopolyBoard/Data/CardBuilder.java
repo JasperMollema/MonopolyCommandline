@@ -1,17 +1,17 @@
 package jmol.jasper.MonopolyBoard.Data;
 
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.Actions.ActionType;
 
 public class CardBuilder {
     private String message;
-    private PlayerActionType playerActionType;
+    private ActionType actionType;
     private int amtToPayOrReceive;
     private Integer nextBoardspaceNr;
     private boolean payRecFromOthers;
     private boolean isGetOutOfJailCard;
 
     public Card build() {
-        return new Card(message, playerActionType, amtToPayOrReceive,
+        return new Card(message, actionType, amtToPayOrReceive,
                 nextBoardspaceNr, payRecFromOthers, isGetOutOfJailCard);
     }
 
@@ -20,8 +20,8 @@ public class CardBuilder {
         return this;
     }
 
-    public CardBuilder setPlayerActionType(PlayerActionType playerActionType) {
-        this.playerActionType = playerActionType;
+    public CardBuilder setActionType(ActionType actionType) {
+        this.actionType = actionType;
         return this;
     }
 

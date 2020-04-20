@@ -2,7 +2,7 @@ package jmol.jasper.MonopolyBoard.BoardSpaces;
 
 
 import jmol.jasper.MonopolyBoard.Data.MonopolyBoardData;
-import jmol.jasper.MonopolyGame.Actions.PlayerActionType;
+import jmol.jasper.MonopolyGame.BoardSpaceActions.BoardSpaceAction;
 
 public class Freeparking extends Boardspace {
 
@@ -11,7 +11,7 @@ public class Freeparking extends Boardspace {
     }
 
     @Override
-    public PlayerActionType performAction() {
-        return PlayerActionType.NO_PLAYER_ACTION;
+    public BoardSpaceAction getBoardspaceAction() {
+        return null;
     }
 }
