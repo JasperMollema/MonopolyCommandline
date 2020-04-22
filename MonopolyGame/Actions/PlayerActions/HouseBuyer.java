@@ -2,6 +2,7 @@ package jmol.jasper.MonopolyGame.Actions.PlayerActions;
 
 import jmol.jasper.MonopolyBoard.BoardSpaces.Street;
 import jmol.jasper.MonopolyBoard.Data.Bank;
+import jmol.jasper.Player.Logic.Player;
 
 import java.util.List;
 
@@ -63,10 +64,6 @@ public class HouseBuyer {
     public boolean hasBankEnoughHousesForTransaction(TransactionType transactionType) {
         setAvailableHousesAndHotels();
 
-        if (!hasBankHousesOrHotels()) {
-            return false;
-        }
-
         if (TransactionType.ONE_HOUSE.equals(transactionType)) {
             return hasBankHouses;
         }
@@ -89,6 +86,40 @@ public class HouseBuyer {
     public boolean hasBankHousesOrHotels() {
         setAvailableHousesAndHotels();
         return hasBankHouses || hasBankHotels;
+    }
+
+    public void buyHouses(TransactionType transactionType, Street street, Player player) {
+        switch (transactionType) {
+            case ONE_HOUSE:
+                buyHouse(street, player);
+                break;
+
+            case TWO_HOUSES:
+                buyHouse(street, player);
+                buyHouse(street, player);
+                break;
+
+            case HOTEL:
+                buyHotel(street, player);
+                break;
+
+            case HOUSE_AND_HOTEL:
+                buyHouse(street, player);
+                buyHotel(street, player);
+                break;
+        }
+    }
+
+    private void buyHouse(Street street, Player player) {
+        bank.buyHouses(1);
+        player.payMoney(street.PRICE_HOUSE);
+        street.buyHouses(1);
+    }
+
+    private void buyHotel(Street street, Player player) {
+        bank.buyHotel(1);
+        player.payMoney(street.PRICE_HOUSE);
+        street.buyHouses(1);
     }
 
     private boolean isIllegalTransaction(Street street, int amountToBuy) {

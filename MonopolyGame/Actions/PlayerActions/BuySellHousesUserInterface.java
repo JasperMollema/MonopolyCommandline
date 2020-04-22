@@ -46,4 +46,26 @@ public class BuySellHousesUserInterface {
     public void printBankHasNoHouses() {
         System.out.println("De bank heeft geen huizen en hotels meer!");
     }
+
+    public void printNotEnoughMoney(TransactionType transactionType, Street street) {
+        System.out.println(
+                "Je hebt niet genoeg geld om "
+                + transactionType.toString()
+                + " te kopen voor "
+                + street.getName()
+        );
+    }
+
+    public boolean wantsToBuyMore() {
+        return ExpressionProvider.getInstance().getBoolean("Wil je meer huizen kopen?");
+    }
+
+    public boolean verifyBuy(TransactionType transactionType, Street street) {
+        return ExpressionProvider.getInstance().getBoolean(
+                "Weet je zeker je dat je "
+                        + transactionType.toString()
+                        + " wil kopen voor "
+                        + street.getName()
+        );
+    }
 }

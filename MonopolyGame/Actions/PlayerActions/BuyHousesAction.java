@@ -13,6 +13,7 @@ public class BuyHousesAction implements PlayerAction {
     private HouseBuyer houseBuyer;
     private BuySellHousesUserInterface buySellHousesUserInterface;
     private TransactionType transactionType;
+    private boolean hasPerformedTransaction;
 
 
     public BuyHousesAction() {
@@ -29,19 +30,29 @@ public class BuyHousesAction implements PlayerAction {
             return;
         }
 
+        if (hasPerformedTransaction && !buySellHousesUserInterface.wantsToBuyMore()) {
+            return;
+        }
+
         Street streetToBuyHouses = determineWhichStreetToBuyHouses(player);
-
         determineTransactionType(streetToBuyHouses);
-
         int nrOfHousesToBuy = buySellHousesUserInterface.askPlayerHowManyHousesToBuy(streetToBuyHouses.getName(), transactionType);
+        transactionType = houseBuyer.determineTransactionType(streetToBuyHouses, nrOfHousesToBuy);
 
-        // --> confirm amount.
+        if (!(player.getAmountOfMoney() < streetToBuyHouses.PRICE_HOUSE * nrOfHousesToBuy)) {
+            buySellHousesUserInterface.printNotEnoughMoney(transactionType, streetToBuyHouses);
+            hasPerformedTransaction = true;
+            handleAction(player);
+        }
 
-        // Buy the house(s). --> HOUSEBUYER
+        if (!buySellHousesUserInterface.verifyBuy(transactionType, streetToBuyHouses)) {
+            hasPerformedTransaction = true;
+            handleAction(player);
+        }
+
+        houseBuyer.buyHouses(transactionType, streetToBuyHouses, player);
 
         // Confirm the transaction.
-        // if player wants to buy more houses --> Start again.
-        // if player wants to stop buying --> end action.
 
 
     }
